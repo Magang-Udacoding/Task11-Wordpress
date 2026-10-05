@@ -1,7 +1,7 @@
 <?php
 /**
- * Template Part: Product Card - Social Commerce Feed Card (Monochrome Black & White)
- * With Real Product Photos & Shopping Cart Integration
+ * Modern E-Commerce Product Card Template Part
+ * Clean, Contemporary, High-Converting UI
  *
  * @package UKM_Toko_Theme
  */
@@ -26,7 +26,7 @@ if (!empty($harga_coret) && !empty($harga) && $harga_coret > $harga) {
 
 // WhatsApp direct order URL
 $wa_msg = sprintf(
-    'Halo Admin Toko Bahri, saya tertarik memesan produk sembako: %s (Harga: %s / %s). Apakah stok masih ada dan bisa diantar?',
+    'Halo Admin Toko Bahri, saya tertarik memesan sembako: %s (Harga: %s / %s). Apakah stok masih ada dan bisa diantar?',
     get_the_title(),
     ukm_rupiah($harga),
     $satuan
@@ -36,135 +36,81 @@ $wa_url = 'https://wa.me/' . $wa_clean . '?text=' . rawurlencode($wa_msg);
 // Primary Category
 $terms = get_the_terms($post_id, 'kategori-produk');
 $cat_name = 'Sembako';
-$cat_link = home_url('/produk/');
+$cat_slug = 'sembako';
 if ($terms && !is_wp_error($terms)) {
     $first_term = array_shift($terms);
     $cat_name = $first_term->name;
-    $cat_link = get_term_link($first_term);
+    $cat_slug = $first_term->slug;
 }
 
-// REAL PRODUCT PHOTO URL
 $photo_url = ukm_get_product_photo_url($post_id);
-$likes_seed = ($post_id * 7) % 65 + 15;
 ?>
 
-<!-- MONOCHROME SOCIAL-COMMERCE POST CARD -->
-<article id="post-<?php the_ID(); ?>" class="mono-post-card" data-product-id="<?php echo esc_attr($post_id); ?>" data-product-title="<?php echo esc_attr(get_the_title()); ?>" data-product-price="<?php echo esc_attr($harga); ?>" data-product-satuan="<?php echo esc_attr($satuan); ?>" data-product-thumb="<?php echo esc_url($photo_url); ?>">
+<div class="product-item-card" data-product-id="<?php echo esc_attr($post_id); ?>" data-product-title="<?php echo esc_attr(get_the_title()); ?>" data-product-price="<?php echo esc_attr($harga); ?>" data-product-satuan="<?php echo esc_attr($satuan); ?>" data-product-thumb="<?php echo esc_url($photo_url); ?>">
     
-    <!-- 1. Post Header: Avatar, Author, Category -->
-    <div class="mono-post-header">
-        <div class="mono-post-avatar">
-            <span class="mono-avatar-text">TB</span>
-        </div>
-        <div class="mono-post-header-meta">
-            <div class="mono-author-line">
-                <a href="<?php echo esc_url(home_url('/')); ?>" class="mono-author-name">Toko Sembako Bahri</a>
-                <span class="mono-post-action-desc">menambahkan produk baru ke <a href="<?php echo esc_url($cat_link); ?>" class="mono-cat-link"><?php echo esc_html($cat_name); ?></a></span>
-            </div>
-            <div class="mono-post-time">
-                <span>Baru saja</span> &middot; <span>🌍 Publik</span>
-            </div>
-        </div>
-        <span class="mono-post-dots">•••</span>
-    </div>
-
-    <!-- 2. Post Media: High-Quality Product Image with Discount Badge -->
-    <div class="mono-post-media">
+    <!-- Image Box with Badges -->
+    <div class="product-card-thumb-wrap">
         <?php if ($diskon_percent > 0) : ?>
-            <span class="mono-badge-discount">-<?php echo $diskon_percent; ?>% HEMAT</span>
+            <span class="product-badge-discount">-<?php echo $diskon_percent; ?>%</span>
         <?php endif; ?>
-        
-        <a href="<?php the_permalink(); ?>" class="mono-media-link" title="<?php the_title_attribute(); ?>">
-            <img src="<?php echo esc_url($photo_url); ?>" alt="<?php the_title_attribute(); ?>" class="mono-product-photo" loading="lazy" />
+
+        <?php if ($stok !== '' && (int)$stok <= 10 && (int)$stok > 0) : ?>
+            <span class="product-badge-lowstock">Sisa <?php echo esc_html($stok); ?></span>
+        <?php endif; ?>
+
+        <a href="<?php the_permalink(); ?>" class="product-img-link" title="<?php the_title_attribute(); ?>">
+            <img src="<?php echo esc_url($photo_url); ?>" alt="<?php the_title_attribute(); ?>" class="product-card-img" loading="lazy" />
+        </a>
+
+        <!-- Quick View / Direct Link Floating Button -->
+        <a href="<?php the_permalink(); ?>" class="product-floating-view" title="Lihat Detail Produk">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </a>
     </div>
 
-    <!-- 3. Post Body: Product Information -->
-    <div class="mono-post-body">
-        <div class="mono-product-tags-row">
-            <span class="mono-tag-pill"><?php echo esc_html($cat_name); ?></span>
-            <span class="mono-tag-pill">Satuan: <?php echo esc_html($satuan); ?></span>
-            <?php if ($stok !== '' && (int)$stok > 0) : ?>
-                <span class="mono-stock-pill in-stock">● Stok: <?php echo esc_html($stok); ?> tersedia</span>
-            <?php else : ?>
-                <span class="mono-stock-pill out-of-stock">○ Stok Habis</span>
-            <?php endif; ?>
+    <!-- Product Card Details -->
+    <div class="product-card-info">
+        <div class="product-cat-row">
+            <span class="product-cat-tag"><?php echo esc_html($cat_name); ?></span>
+            <span class="product-rating-stars">★★★★★ <small>(4.9)</small></span>
         </div>
 
-        <h3 class="mono-product-title">
-            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+        <h3 class="product-title-heading">
+            <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
+                <?php the_title(); ?>
+            </a>
         </h3>
 
-        <!-- Price Row -->
-        <div class="mono-price-row">
-            <span class="mono-current-price"><?php echo ukm_rupiah($harga); ?></span>
-            <?php if (!empty($harga_coret) && $harga_coret > $harga) : ?>
-                <del class="mono-old-price"><?php echo ukm_rupiah($harga_coret); ?></del>
+        <div class="product-unit-info">
+            <span>Kemasan: <strong><?php echo esc_html($satuan); ?></strong></span>
+            <?php if ($stok !== '' && (int)$stok > 0) : ?>
+                <span class="stock-ready-badge">● Stok Tersedia</span>
+            <?php else : ?>
+                <span class="stock-empty-badge">○ Stok Habis</span>
             <?php endif; ?>
         </div>
 
-        <p class="mono-product-desc">
-            <?php echo wp_strip_all_tags(get_the_excerpt() ?: get_the_content()); ?>
-        </p>
-    </div>
-
-    <!-- 4. Action Buttons Bar: Like, Add to Cart, Direct Checkout, WhatsApp -->
-    <div class="mono-post-actions-bar">
-        <button type="button" class="mono-action-btn fb-like-btn" data-liked="false" data-count="<?php echo esc_attr($likes_seed); ?>">
-            <span class="mono-action-icon">👍</span>
-            <span class="fb-action-label">Suka</span>
-        </button>
-
-        <button type="button" class="mono-action-btn fb-comment-trigger-btn">
-            <span class="mono-action-icon">💬</span>
-            <span>Komentar</span>
-        </button>
-
-        <!-- Add to Cart -->
-        <button type="button" class="mono-action-btn mono-btn-cart fb-btn-add-cart">
-            <span class="mono-action-icon">🛒</span>
-            <span>+ Keranjang</span>
-        </button>
-
-        <!-- Direct Sandbox Checkout -->
-        <button type="button" class="mono-action-btn mono-btn-direct-buy fb-btn-direct-checkout">
-            <span class="mono-action-icon">⚡</span>
-            <span>Beli Sekarang</span>
-        </button>
-
-        <!-- WhatsApp Direct -->
-        <a href="<?php echo esc_url($wa_url); ?>" target="_blank" rel="noopener noreferrer" class="mono-action-btn mono-btn-wa" title="Pesan langsung lewat WhatsApp">
-            <span>💬 WA</span>
-        </a>
-    </div>
-
-    <!-- 5. Social Feedback: Who Liked This -->
-    <div class="mono-post-feedback">
-        <span class="mono-mini-like-icon">👍</span>
-        <span class="mono-likes-text">
-            <strong>Warung Pak Slamet</strong>, <strong>Bu RT</strong>, dan <span class="fb-like-counter"><?php echo $likes_seed; ?></span> orang lainnya menyukai produk ini.
-        </span>
-    </div>
-
-    <!-- 6. Comments Section -->
-    <div class="mono-comments-area">
-        <div class="mono-comment-item">
-            <div class="mono-comment-avatar">👵</div>
-            <div class="mono-comment-bubble">
-                <a href="<?php echo esc_url(home_url('/klien/')); ?>" class="mono-commenter-name">Toko Sembako Bu RT</a>
-                <span class="mono-comment-text">Produk sembako ini selalu ready dan dikirim tepat waktu ke warung kami. Sangat recommended! 👍</span>
-                <div class="mono-comment-footer">
-                    <span>15 menit yang lalu</span> &middot; <a href="javascript:void(0);" class="mono-comment-like">Suka</a> &middot; <span>👍 4</span>
-                </div>
+        <!-- Price Area -->
+        <div class="product-card-pricing">
+            <div class="price-container">
+                <span class="main-price"><?php echo ukm_rupiah($harga); ?></span>
+                <?php if ($diskon_percent > 0) : ?>
+                    <span class="strike-price"><?php echo ukm_rupiah($harga_coret); ?></span>
+                <?php endif; ?>
             </div>
+            <span class="price-satuan-label">/ <?php echo esc_html($satuan); ?></span>
         </div>
 
-        <div class="mono-write-comment">
-            <div class="mono-comment-avatar">👤</div>
-            <div class="mono-comment-input-wrap">
-                <input type="text" class="mono-comment-input fb-comment-input" placeholder="Tulis komentar atau tanya ketersediaan stok..." />
-                <button type="button" class="mono-comment-send-btn">Kirim</button>
-            </div>
+        <!-- Action Buttons -->
+        <div class="product-card-actions">
+            <button type="button" class="btn-add-cart btn-quick-add" data-id="<?php echo esc_attr($post_id); ?>" data-title="<?php echo esc_attr(get_the_title()); ?>" data-price="<?php echo esc_attr($harga); ?>" data-thumb="<?php echo esc_url($photo_url); ?>" data-satuan="<?php echo esc_attr($satuan); ?>">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span>+ Keranjang</span>
+            </button>
+
+            <a href="<?php echo esc_url($wa_url); ?>" target="_blank" rel="noopener noreferrer" class="btn-quick-wa" title="Pesan langsung via WhatsApp">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.077-1.127-.061-.271-.088-.61-.205-1.045-.395-1.841-.806-3.037-2.673-3.129-2.796-.092-.124-.744-.991-.744-1.89s.471-1.341.638-1.523c.168-.182.366-.228.489-.228.123 0 .245.001.353.006.113.006.264-.043.413.315.153.367.52 1.27.565 1.363.046.092.077.2.015.323-.061.124-.092.2-.184.308-.092.108-.194.241-.277.324-.092.092-.188.192-.081.376.108.183.479.79 1.026 1.278.704.628 1.298.822 1.482.914.184.092.292.077.4-.046.108-.124.46-1.339.583-.454.123-.114.246-.092.414-.03.168.061 1.069.504 1.253.596.184.092.306.138.352.215.046.077.046.445-.098.85z"/></svg>
+            </a>
         </div>
     </div>
-</article>
+</div>
