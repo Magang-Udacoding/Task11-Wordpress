@@ -1,0 +1,26 @@
+/* Critical Above-the-fold Classic Facebook CSS */
+body.fb-classic-body {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+  background-color: #eceff5;
+  color: #333333;
+}
+.fb-top-bar {
+  background-color: #3b5998;
+  border-bottom: 1px solid #133783;
+}
+.fb-sub-navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #d8dfea;
+}
+.fb-header-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+.fb-main-canvas {
+  max-width: 980px;
+  margin: 14px auto 30px auto;
+  padding: 0 10px;
+}
