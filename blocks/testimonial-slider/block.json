@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "ukm-toko/testimonial-slider",
+  "version": "1.0.0",
+  "title": "UKM Testimonial Slider",
+  "category": "ukm-toko-blocks",
+  "icon": "format-quote",
+  "description": "Slider ulasan pelanggan mitra warung sembako.",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Dipercaya Puluhan Warung & Keluarga"
+    }
+  }
+}

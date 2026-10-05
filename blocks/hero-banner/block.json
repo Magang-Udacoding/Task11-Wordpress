@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "ukm-toko/hero-banner",
+  "version": "1.0.0",
+  "title": "UKM Hero Banner",
+  "category": "ukm-toko-blocks",
+  "icon": "cover-image",
+  "description": "Hero banner dengan judul, subjudul, dan CTA pesan sembako.",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Sembako Segar & Hemat untuk Kebutuhan Sehari-hari"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "Penyedia sembako terlengkap dengan harga grosir langsung ke rumah Anda."
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "Lihat Katalog Produk"
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": "#katalog-produk"
+    }
+  }
+}

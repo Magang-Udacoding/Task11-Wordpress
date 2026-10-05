@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "ukm-toko/product-grid",
+  "version": "1.0.0",
+  "title": "UKM Product Grid",
+  "category": "ukm-toko-blocks",
+  "icon": "grid-view",
+  "description": "Grid produk sembako responsif dengan harga dan badge stok.",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "postsPerPage": {
+      "type": "number",
+      "default": 8
+    },
+    "columns": {
+      "type": "number",
+      "default": 4
+    }
+  }
+}
