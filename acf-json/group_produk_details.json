@@ -1,0 +1,98 @@
+{
+    "key": "group_produk_details",
+    "title": "Informasi Lengkap Produk",
+    "fields": [
+        {
+            "key": "field_produk_harga",
+            "label": "Harga Produk (Rp)",
+            "name": "harga",
+            "type": "number",
+            "instructions": "Masukkan nominal harga dalam Rupiah (misal: 75000)",
+            "required": 1
+        },
+        {
+            "key": "field_produk_harga_coret",
+            "label": "Harga Coret / Normal (Rp)",
+            "name": "harga_coret",
+            "type": "number"
+        },
+        {
+            "key": "field_produk_stok",
+            "label": "Jumlah Stok Tersedia",
+            "name": "stok",
+            "type": "number",
+            "required": 1,
+            "default_value": 50
+        },
+        {
+            "key": "field_produk_satuan",
+            "label": "Satuan Produk",
+            "name": "satuan",
+            "type": "select",
+            "choices": {
+                "kg": "Kilogram (Kg)",
+                "gram": "Gram (g)",
+                "liter": "Liter (L)",
+                "pcs": "Pcs / Buah",
+                "pack": "Pack / Bungkus",
+                "dus": "Dus / Karton"
+            },
+            "default_value": "pcs"
+        },
+        {
+            "key": "field_produk_specs_group",
+            "label": "Spesifikasi Produk (Group Specs)",
+            "name": "spesifikasi",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_spec_berat",
+                    "label": "Berat Bersih",
+                    "name": "berat_bersih",
+                    "type": "text"
+                },
+                {
+                    "key": "field_spec_dimensi",
+                    "label": "Dimensi Kemasan",
+                    "name": "dimensi",
+                    "type": "text"
+                },
+                {
+                    "key": "field_spec_kadaluarsa",
+                    "label": "Masa Kadaluarsa",
+                    "name": "masa_kadaluarsa",
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "key": "field_produk_variants_repeater",
+            "label": "Varian Produk (Repeater Variants)",
+            "name": "varian_produk",
+            "type": "repeater",
+            "sub_fields": [
+                {
+                    "key": "field_var_nama",
+                    "label": "Nama Varian",
+                    "name": "nama_varian",
+                    "type": "text"
+                },
+                {
+                    "key": "field_var_harga",
+                    "label": "Harga Varian (Rp)",
+                    "name": "harga_varian",
+                    "type": "number"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "produk"
+            }
+        ]
+    ]
+}
