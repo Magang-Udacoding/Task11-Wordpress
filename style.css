@@ -1,0 +1,172 @@
+/*
+Theme Name: UKM Toko Theme
+Theme URI: https://ukm-toko.nandohosting.com/
+Author: Antigravity & Udacoding Team
+Author URI: https://udacoding.com/
+Description: Custom, high-performance, and fully responsive WordPress theme tailored for Indonesian MSME (UKM Toko Sembako & Retail). Built with Underscores (_s) starter principles, featuring native Custom Post Types (Produk & Klien), ACF Pro specs & variant repeaters, custom Gutenberg blocks, WooCommerce support, technical SEO schema markup, and 95+ PageSpeed optimizations.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ukm-toko-theme
+Tags: e-commerce, custom-post-types, block-patterns, full-width-template, grid-layout, custom-colors, custom-menu, featured-images, translation-ready
+*/
+
+:root {
+  --ukm-primary: #10b981;
+  --ukm-primary-dark: #059669;
+  --ukm-primary-light: #d1fae5;
+  --ukm-accent: #f59e0b;
+  --ukm-accent-dark: #d97706;
+  --ukm-danger: #ef4444;
+  --ukm-dark: #0f172a;
+  --ukm-gray-800: #1e293b;
+  --ukm-gray-600: #475569;
+  --ukm-gray-400: #94a3b8;
+  --ukm-gray-200: #e2e8f0;
+  --ukm-gray-100: #f1f5f9;
+  --ukm-gray-50: #f8fafc;
+  --ukm-white: #ffffff;
+  --ukm-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ukm-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ukm-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --ukm-radius-sm: 6px;
+  --ukm-radius: 12px;
+  --ukm-radius-lg: 18px;
+  --ukm-radius-full: 9999px;
+  --ukm-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --ukm-container-max: 1240px;
+  --ukm-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--ukm-font-sans);
+  background-color: var(--ukm-gray-50);
+  color: var(--ukm-gray-800);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ukm-primary-dark);
+  text-decoration: none;
+  transition: var(--ukm-transition);
+}
+
+a:hover {
+  color: var(--ukm-primary);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.ukm-container {
+  width: 100%;
+  max-width: var(--ukm-container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.ukm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: var(--ukm-radius-full);
+}
+
+.ukm-badge-primary {
+  background: var(--ukm-primary-light);
+  color: var(--ukm-primary-dark);
+}
+
+.ukm-badge-accent {
+  background: #fef3c7;
+  color: var(--ukm-accent-dark);
+}
+
+.ukm-badge-success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.ukm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border-radius: var(--ukm-radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: var(--ukm-transition);
+  text-decoration: none;
+}
+
+.ukm-btn-primary {
+  background: var(--ukm-primary);
+  color: var(--ukm-white);
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.35);
+}
+
+.ukm-btn-primary:hover {
+  background: var(--ukm-primary-dark);
+  color: var(--ukm-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.45);
+}
+
+.ukm-btn-accent {
+  background: var(--ukm-accent);
+  color: var(--ukm-white);
+}
+
+.ukm-btn-accent:hover {
+  background: var(--ukm-accent-dark);
+  color: var(--ukm-white);
+  transform: translateY(-2px);
+}
+
+.ukm-btn-outline {
+  border-color: var(--ukm-gray-200);
+  background: var(--ukm-white);
+  color: var(--ukm-gray-800);
+}
+
+.ukm-btn-outline:hover {
+  border-color: var(--ukm-primary);
+  color: var(--ukm-primary-dark);
+  background: var(--ukm-primary-light);
+}
+
+.ukm-btn-wa {
+  background: #25d366;
+  color: var(--ukm-white);
+  box-shadow: 0 4px 14px 0 rgba(37, 211, 102, 0.35);
+}
+
+.ukm-btn-wa:hover {
+  background: #1eb954;
+  color: var(--ukm-white);
+  transform: translateY(-2px);
+}
