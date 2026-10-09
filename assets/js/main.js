@@ -1,297 +1,486 @@
 /**
- * Modern E-Commerce Shopping Cart & Interactive UI Engine
- * UKM Toko Sembako Bahri
+ * UKM Toko Theme — Main JavaScript
+ * Toko Berkah | Vanilla JS, no jQuery dependency.
+ *
+ * Features:
+ * 1. Mobile navigation drawer (hamburger toggle)
+ * 2. Sticky header on scroll
+ * 3. Mini cart (localStorage) + WooCommerce AJAX add-to-cart
+ * 4. Product image gallery switcher (single-produk.php)
+ * 5. Smooth scroll for anchor links
+ * 6. Input quantity increment/decrement
  */
 
-(function() {
-    'use strict';
+(function () {
+  'use strict';
 
-    // 1. Cart State Management (Stored in localStorage)
-    var CART_STORAGE_KEY = 'tokobahri_cart_items';
+  /* ─────────────────────────────────────────────
+     1. DOM READY HELPER
+     ───────────────────────────────────────────── */
+  function ready(fn) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
 
-    function getCart() {
-        try {
-            var raw = localStorage.getItem(CART_STORAGE_KEY);
-            return raw ? JSON.parse(raw) : [];
-        } catch (e) {
-            return [];
-        }
+  /* ─────────────────────────────────────────────
+     2. MOBILE NAVIGATION DRAWER
+     ───────────────────────────────────────────── */
+  function initMobileNav() {
+    const toggle   = document.getElementById('mobileMenuToggle');
+    const drawer   = document.getElementById('mobileNavDrawer');
+    const backdrop = document.getElementById('mobileNavBackdrop');
+    if (!toggle || !drawer) return;
+
+    function openDrawer() {
+      drawer.classList.add('is-open');
+      backdrop && backdrop.classList.add('is-visible');
+      toggle.setAttribute('aria-expanded', 'true');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     }
 
-    function saveCart(cart) {
-        try {
-            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-        } catch (e) {}
-        updateAllCartBadges();
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      backdrop && backdrop.classList.remove('is-visible');
+      toggle.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
     }
 
-    function formatRupiah(num) {
-        return 'Rp ' + Number(num).toLocaleString('id-ID');
-    }
-
-    function getCartTotal(cart) {
-        var total = 0;
-        cart.forEach(function(item) {
-            total += (item.price * item.qty);
-        });
-        return total;
-    }
-
-    function getCartCount(cart) {
-        var count = 0;
-        cart.forEach(function(item) {
-            count += item.qty;
-        });
-        return count;
-    }
-
-    function addToCart(product) {
-        var cart = getCart();
-        var existing = cart.find(function(item) { return String(item.id) === String(product.id); });
-        if (existing) {
-            existing.qty += 1;
-        } else {
-            cart.push({
-                id: product.id,
-                title: product.title,
-                price: parseInt(product.price, 10) || 0,
-                satuan: product.satuan || 'pcs',
-                thumb: product.thumb || '',
-                qty: 1
-            });
-        }
-        saveCart(cart);
-        showModernToast('✓ ' + product.title + ' berhasil ditambahkan ke keranjang!');
-    }
-
-    function removeFromCart(productId) {
-        var cart = getCart().filter(function(item) { return String(item.id) !== String(productId); });
-        saveCart(cart);
-        renderCheckoutCart();
-    }
-
-    function updateCartQty(productId, delta) {
-        var cart = getCart();
-        var item = cart.find(function(i) { return String(i.id) === String(productId); });
-        if (item) {
-            item.qty += delta;
-            if (item.qty <= 0) {
-                cart = cart.filter(function(i) { return String(i.id) !== String(productId); });
-            }
-            saveCart(cart);
-            renderCheckoutCart();
-        }
-    }
-
-    function updateAllCartBadges() {
-        var cart = getCart();
-        var count = getCartCount(cart);
-        var total = getCartTotal(cart);
-
-        // Header cart badges
-        var hCount = document.getElementById('headerCartCount');
-        var hTotal = document.getElementById('headerCartTotal');
-        if (hCount) hCount.textContent = count;
-        if (hTotal) hTotal.textContent = formatRupiah(total);
-
-        // Sub navbar badge
-        var subCount = document.getElementById('subCartCount');
-        if (subCount) subCount.textContent = count;
-    }
-
-    // Modern Emerald Floating Toast Notification
-    function showModernToast(msg) {
-        var existing = document.querySelector('.modern-cart-toast');
-        if (existing) existing.remove();
-
-        var toast = document.createElement('div');
-        toast.className = 'modern-cart-toast';
-        toast.style.cssText = 'position:fixed; bottom:24px; left:24px; background:linear-gradient(135deg, #059669 0%, #047857 100%); color:#ffffff; font-weight:700; padding:14px 22px; border-radius:14px; box-shadow:0 12px 30px rgba(5,150,105,0.35); z-index:99999; font-size:13.5px; display:flex; align-items:center; gap:10px; border:1px solid rgba(255,255,255,0.2); animation:slideUp 0.3s cubic-bezier(0.16,1,0.3,1);';
-        toast.innerHTML = '<span>🛒</span><span>' + msg + '</span>';
-        document.body.appendChild(toast);
-
-        setTimeout(function() {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateY(10px)';
-            toast.style.transition = 'all 0.3s ease';
-            setTimeout(function() { toast.remove(); }, 300);
-        }, 2800);
-    }
-
-    // 2. Checkout Page Cart Renderer
-    function renderCheckoutCart() {
-        var container = document.getElementById('checkoutCartItems');
-        if (!container) return;
-
-        var cart = getCart();
-
-        // If cart is empty on checkout page, initialize with realistic demo items for easy evaluation
-        if (cart.length === 0) {
-            cart = [
-                { id: '201', title: 'Beras Premium Rojolele 5kg', price: 75000, satuan: '5kg', qty: 1, thumb: '' },
-                { id: '202', title: 'Minyak Goreng Bimoli 1 Liter', price: 18000, satuan: '1L', qty: 2, thumb: '' }
-            ];
-            saveCart(cart);
-        }
-
-        var total = getCartTotal(cart);
-        var subtotalEl = document.getElementById('summarySubtotal');
-        var grandTotalEl = document.getElementById('summaryGrandTotal');
-        if (subtotalEl) subtotalEl.textContent = formatRupiah(total);
-        if (grandTotalEl) grandTotalEl.textContent = formatRupiah(total);
-
-        var html = '<table style="width:100%; border-collapse:collapse; background:#ffffff; border-radius:12px; overflow:hidden;">';
-        html += '<thead style="background:#f8fafc; border-bottom:1px solid #e2e8f0; font-size:12.5px; text-transform:uppercase; color:#64748b;">';
-        html += '<tr><th style="padding:14px 16px; text-align:left;">Produk</th><th style="padding:14px 16px; text-align:left;">Harga</th><th style="padding:14px 16px; text-align:center;">Jumlah</th><th style="padding:14px 16px; text-align:right;">Subtotal</th><th style="padding:14px 16px; text-align:center;">Aksi</th></tr>';
-        html += '</thead><tbody>';
-
-        cart.forEach(function(item) {
-            var sub = item.price * item.qty;
-            html += '<tr style="border-bottom:1px solid #f1f5f9;">';
-            html += '<td style="padding:14px 16px;">';
-            html += '<div style="display:flex; align-items:center; gap:12px;">';
-            html += '<div style="width:36px; height:36px; border-radius:8px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:18px;">📦</div>';
-            html += '<div><strong style="color:#0f172a; font-size:14px; display:block;">' + item.title + '</strong><span style="color:#64748b; font-size:11.5px;">Satuan: ' + item.satuan + '</span></div>';
-            html += '</div>';
-            html += '</td>';
-            html += '<td style="padding:14px 16px; color:#334155; font-weight:600;">' + formatRupiah(item.price) + '</td>';
-            html += '<td style="padding:14px 16px; text-align:center;">';
-            html += '<div style="display:inline-flex; align-items:center; gap:6px; background:#f1f5f9; padding:4px 8px; border-radius:8px;">';
-            html += '<button type="button" class="btn-qty" data-action="minus" data-id="' + item.id + '" style="border:none; background:#ffffff; width:24px; height:24px; border-radius:4px; font-weight:bold; cursor:pointer;">−</button>';
-            html += '<span style="font-weight:700; min-width:20px; font-size:13px;">' + item.qty + '</span>';
-            html += '<button type="button" class="btn-qty" data-action="plus" data-id="' + item.id + '" style="border:none; background:#ffffff; width:24px; height:24px; border-radius:4px; font-weight:bold; cursor:pointer;">+</button>';
-            html += '</div>';
-            html += '</td>';
-            html += '<td style="padding:14px 16px; text-align:right; color:#059669; font-weight:800; font-size:14.5px;">' + formatRupiah(sub) + '</td>';
-            html += '<td style="padding:14px 16px; text-align:center;"><button type="button" class="btn-remove-item" data-id="' + item.id + '" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:12.5px; font-weight:600;">🗑️ Hapus</button></td>';
-            html += '</tr>';
-        });
-
-        html += '</tbody></table>';
-        container.innerHTML = html;
-
-        // Attach listeners
-        container.querySelectorAll('.btn-qty').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var id = this.getAttribute('data-id');
-                var act = this.getAttribute('data-action');
-                updateCartQty(id, act === 'plus' ? 1 : -1);
-            });
-        });
-
-        container.querySelectorAll('.btn-remove-item').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                var id = this.getAttribute('data-id');
-                removeFromCart(id);
-            });
-        });
-    }
-
-    // 3. Sandbox Payment Execution
-    function initSandboxPayment() {
-        var payRadioButtons = document.querySelectorAll('input[name="payment_method"]');
-        var previewBox = document.getElementById('paymentPreviewBox');
-
-        payRadioButtons.forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                if (previewBox) {
-                    var val = this.value;
-                    if (val === 'qris') {
-                        previewBox.innerHTML = '<div style="text-align:center; padding:16px;"><span style="display:inline-block; background:#ecfdf5; color:#059669; font-size:11px; font-weight:800; padding:4px 12px; border-radius:999px; margin-bottom:12px;">QRIS RESMI SANDBOX</span><div><img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=TOKOBAHRI-SANDBOX-PAYMENT" alt="QRIS Demo" style="margin:0 auto; border:4px solid #0f172a; border-radius:12px;" /></div><p style="font-size:12px; color:#64748b; margin-top:10px;">Scan dengan aplikasi mobile banking apa saja (BCA, Mandiri, GoPay, OVO, ShopeePay).</p></div>';
-                    } else if (val === 'va_bca') {
-                        previewBox.innerHTML = '<div style="text-align:center; padding:16px;"><span style="font-size:11px; color:#64748b;">Nomor BCA Virtual Account:</span><p style="font-size:22px; font-weight:900; letter-spacing:2px; color:#0f172a; font-family:monospace; margin:8px 0;">8801 2345 6789 001</p><p style="font-size:12px; color:#059669; font-weight:600;">Otomatis diverifikasi dalam 5 detik.</p></div>';
-                    } else if (val === 'va_mandiri') {
-                        previewBox.innerHTML = '<div style="text-align:center; padding:16px;"><span style="font-size:11px; color:#64748b;">Nomor Mandiri Virtual Account:</span><p style="font-size:22px; font-weight:900; letter-spacing:2px; color:#0f172a; font-family:monospace; margin:8px 0;">8902 4432 1098 772</p><p style="font-size:12px; color:#059669; font-weight:600;">Otomatis diverifikasi dalam 5 detik.</p></div>';
-                    } else if (val === 'cod') {
-                        previewBox.innerHTML = '<div style="text-align:center; padding:16px;"><span style="font-size:32px;">💵</span><h4 style="font-size:15px; font-weight:800; margin:6px 0;">Bayar Tunai di Tempat (COD)</h4><p style="font-size:12.5px; color:#64748b;">Siapkan uang pas saat sembako diantar oleh kurir resmi Toko Bahri.</p></div>';
-                    }
-                }
-            });
-        });
-
-        var btnPay = document.getElementById('btnExecuteSandboxPay');
-        var modal = document.getElementById('sandboxSuccessModal');
-        var modalLoading = document.getElementById('modalLoadingState');
-        var modalSuccess = document.getElementById('modalSuccessState');
-        var btnClose = document.getElementById('btnCloseModal');
-
-        if (btnPay && modal) {
-            btnPay.addEventListener('click', function() {
-                var cart = getCart();
-                if (cart.length === 0) {
-                    alert('Keranjang belanja Anda kosong!');
-                    return;
-                }
-
-                var custName = (document.getElementById('custName') || {}).value || 'Pelanggan Toko Bahri';
-                var custPhone = (document.getElementById('custPhone') || {}).value || '-';
-                var custAddress = (document.getElementById('custAddress') || {}).value || 'Bandung';
-                var total = getCartTotal(cart);
-                var invId = '#TB-' + Math.floor(100000 + Math.random() * 900000);
-
-                modal.style.display = 'flex';
-                modalLoading.style.display = 'block';
-                modalSuccess.style.display = 'none';
-
-                setTimeout(function() {
-                    modalLoading.style.display = 'none';
-                    modalSuccess.style.display = 'block';
-
-                    var invNum = document.getElementById('invNumber');
-                    var invTot = document.getElementById('invTotal');
-                    if (invNum) invNum.textContent = invId;
-                    if (invTot) invTot.textContent = formatRupiah(total);
-
-                    saveCart([]);
-                }, 1200);
-            });
-        }
-
-        if (btnClose && modal) {
-            btnClose.addEventListener('click', function() {
-                modal.style.display = 'none';
-                window.location.href = 'http://tokobahri.urmin.my.id/produk/';
-            });
-        }
-    }
-
-    // 4. Initialization on DOM Ready
-    document.addEventListener('DOMContentLoaded', function() {
-        updateAllCartBadges();
-
-        // Bind quick add buttons on product cards
-        document.querySelectorAll('.btn-quick-add').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                var id = this.getAttribute('data-id');
-                var title = this.getAttribute('data-title') || 'Produk Sembako';
-                var price = this.getAttribute('data-price') || 0;
-                var satuan = this.getAttribute('data-satuan') || 'pcs';
-                var thumb = this.getAttribute('data-thumb') || '';
-
-                addToCart({
-                    id: id,
-                    title: title,
-                    price: price,
-                    satuan: satuan,
-                    thumb: thumb
-                });
-
-                // Subtle animation button feedback
-                var origText = this.innerHTML;
-                this.innerHTML = '<span>✓ Masuk!</span>';
-                this.style.background = '#047857';
-                var self = this;
-                setTimeout(function() {
-                    self.innerHTML = origText;
-                    self.style.background = '';
-                }, 1200);
-            });
-        });
-
-        // Checkout page handlers
-        renderCheckoutCart();
-        initSandboxPayment();
+    toggle.addEventListener('click', function () {
+      const isOpen = drawer.classList.contains('is-open');
+      isOpen ? closeDrawer() : openDrawer();
     });
 
+    backdrop && backdrop.addEventListener('click', closeDrawer);
+
+    // Close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+        closeDrawer();
+        toggle.focus();
+      }
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     3. STICKY / SHADOW HEADER
+     ───────────────────────────────────────────── */
+  function initStickyHeader() {
+    const header = document.getElementById('masthead');
+    if (!header) return;
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', function () {
+      const current = window.scrollY;
+      if (current > 60) {
+        header.classList.add('header-scrolled');
+      } else {
+        header.classList.remove('header-scrolled');
+      }
+      lastScroll = current;
+    }, { passive: true });
+  }
+
+  /* ─────────────────────────────────────────────
+     4. LOCAL MINI-CART (window.ukmCart)
+     ───────────────────────────────────────────── */
+  window.ukmCart = (function () {
+    var STORAGE_KEY = 'ukm_mini_cart';
+
+    function loadCart() {
+      try {
+        var data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return Array.isArray(data) ? data : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCart(items) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      } catch (e) {}
+      updateCartBadge();
+      window.dispatchEvent(new CustomEvent('ukmCartUpdated', { detail: { items: items } }));
+    }
+
+    function getCount() {
+      return loadCart().reduce(function (sum, item) {
+        return sum + (parseInt(item.qty, 10) || 1);
+      }, 0);
+    }
+
+    function getSubtotal() {
+      return loadCart().reduce(function (sum, item) {
+        var p = parseFloat(item.price) || 0;
+        var q = parseInt(item.qty, 10) || 1;
+        return sum + (p * q);
+      }, 0);
+    }
+
+    function addItem(item) {
+      var items = loadCart();
+      var itemId = String(item.id);
+      var found = items.find(function (i) {
+        return String(i.id) === itemId;
+      });
+      if (found) {
+        found.qty = (parseInt(found.qty, 10) || 1) + (parseInt(item.qty, 10) || 1);
+      } else {
+        items.push({
+          id: itemId,
+          title: item.title || item.name || 'Produk Sembako',
+          price: parseFloat(item.price) || 0,
+          thumb: item.thumb || '',
+          satuan: item.satuan || 'item',
+          qty: parseInt(item.qty, 10) || 1
+        });
+      }
+      saveCart(items);
+      return getCount();
+    }
+
+    function updateQty(id, qty) {
+      var items = loadCart();
+      var itemId = String(id);
+      var newQty = parseInt(qty, 10);
+      if (newQty <= 0) {
+        items = items.filter(function (i) { return String(i.id) !== itemId; });
+      } else {
+        var found = items.find(function (i) { return String(i.id) === itemId; });
+        if (found) found.qty = newQty;
+      }
+      saveCart(items);
+      return items;
+    }
+
+    function removeItem(id) {
+      var items = loadCart();
+      var itemId = String(id);
+      items = items.filter(function (i) { return String(i.id) !== itemId; });
+      saveCart(items);
+      return items;
+    }
+
+    function clearCart() {
+      saveCart([]);
+    }
+
+    return {
+      load: loadCart,
+      save: saveCart,
+      getCount: getCount,
+      getSubtotal: getSubtotal,
+      addItem: addItem,
+      updateQty: updateQty,
+      removeItem: removeItem,
+      clearCart: clearCart,
+      updateBadge: updateCartBadge
+    };
+  })();
+
+  /* ─────────────────────────────────────────────
+     5. UPDATE CART COUNT BADGE UI
+     ───────────────────────────────────────────── */
+  function updateCartBadge(count) {
+    if (typeof count === 'undefined' && window.ukmCart) {
+      count = window.ukmCart.getCount();
+    }
+    var badges = document.querySelectorAll('#header-cart-count, #ukmCartCount, .cart-badge-count');
+    badges.forEach(function (badge) {
+      if (badge) {
+        badge.textContent = count;
+        badge.style.display = 'flex';
+      }
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     6. QUICK ADD-TO-CART (Local + Dynamic)
+     ───────────────────────────────────────────── */
+  function initAddToCart() {
+    document.body.addEventListener('click', function (e) {
+      var btn = e.target.closest('.btn-quick-add, .btn-technova-cart, .js-add-to-cart, .btn-single-cart');
+      if (!btn) return;
+      e.preventDefault();
+
+      var card = btn.closest('.technova-product-card, .ukm-product-card, .single-product-main, article, .prod-card-details');
+      
+      var id = btn.dataset.id;
+      if (!id && card) {
+        var postEl = btn.closest('[id^="post-"]');
+        if (postEl) id = postEl.id.replace('post-', '');
+      }
+      if (!id) id = 'prod-' + Date.now();
+
+      var title = btn.dataset.title || btn.dataset.name;
+      if (!title && card) {
+        var tEl = card.querySelector('.prod-card-title a, .prod-card-title, .single-product-title, h1, h2, h3');
+        if (tEl) title = tEl.textContent.trim();
+      }
+      if (!title) title = 'Produk Sembako';
+
+      var price = parseFloat(btn.dataset.price);
+      if (isNaN(price) || price <= 0) {
+        if (card) {
+          var pEl = card.querySelector('.price-current, .price-display-main, .price');
+          if (pEl) {
+            price = parseFloat(pEl.textContent.replace(/[^0-9]/g, '')) || 0;
+          }
+        }
+      }
+      if (isNaN(price)) price = 0;
+
+      var thumb = btn.dataset.thumb || '';
+      if (!thumb && card) {
+        var imgEl = card.querySelector('img.prod-card-img, img.single-main-img, img');
+        if (imgEl) thumb = imgEl.src;
+      }
+
+      var satuan = btn.dataset.satuan || 'item';
+
+      // Add to window.ukmCart
+      window.ukmCart.addItem({
+        id: id,
+        title: title,
+        price: price,
+        thumb: thumb,
+        satuan: satuan,
+        qty: 1
+      });
+
+      // Feedback animation on button
+      var original = btn.innerHTML;
+      btn.innerHTML = '<span>Ditambahkan! ✓</span>';
+      btn.classList.add('btn-added-state');
+
+      setTimeout(function () {
+        btn.innerHTML = original;
+        btn.classList.remove('btn-added-state');
+      }, 1500);
+
+      showToast('✓ ' + title + ' ditambahkan ke keranjang!');
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     7. TOAST NOTIFICATION
+     ───────────────────────────────────────────── */
+  function showToast(msg) {
+    var existing = document.getElementById('ukmToast');
+    if (existing) existing.remove();
+
+    var toast = document.createElement('div');
+    toast.id = 'ukmToast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.style.cssText = [
+      'position:fixed', 'bottom:88px', 'right:24px', 'z-index:10000',
+      'background:#0f172a', 'color:#fff', 'padding:12px 20px',
+      'border-radius:10px', 'font-size:0.875rem', 'font-weight:600',
+      'box-shadow:0 8px 24px rgba(0,0,0,0.20)', 'max-width:320px',
+      'animation:fadeInUp 0.3s ease forwards',
+    ].join(';');
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+
+    setTimeout(function () {
+      toast.style.animation = 'fadeOutDown 0.3s ease forwards';
+      setTimeout(function () { toast.remove(); }, 300);
+    }, 2800);
+  }
+
+  // Inject toast animation keyframes once
+  (function injectToastStyles() {
+    if (document.getElementById('ukm-toast-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'ukm-toast-styles';
+    style.textContent = [
+      '@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}',
+      '@keyframes fadeOutDown{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(12px)}}',
+    ].join('');
+    document.head.appendChild(style);
+  })();
+
+  /* ─────────────────────────────────────────────
+     8. PRODUCT GALLERY SWITCHER (single-produk.php)
+     ───────────────────────────────────────────── */
+  function initProductGallery() {
+    var mainImg = document.getElementById('productMainImage');
+    if (!mainImg) return;
+
+    document.querySelectorAll('.gallery-thumb').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        var src = this.dataset.full || this.getAttribute('src');
+        mainImg.src = src;
+        mainImg.alt = this.alt;
+
+        document.querySelectorAll('.gallery-thumb').forEach(function (t) {
+          t.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+
+      thumb.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     9. QUANTITY INCREMENT / DECREMENT
+     ───────────────────────────────────────────── */
+  function initQtyButtons() {
+    document.body.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-qty]');
+      if (!btn) return;
+
+      var target  = document.getElementById(btn.dataset.target);
+      if (!target) return;
+
+      var current = parseInt(target.value, 10) || 1;
+      var min     = parseInt(target.getAttribute('min'), 10) || 1;
+      var max     = parseInt(target.getAttribute('max'), 10) || 9999;
+      var step    = parseInt(target.getAttribute('step'), 10) || 1;
+
+      if (btn.dataset.qty === '+') {
+        target.value = Math.min(max, current + step);
+      } else {
+        target.value = Math.max(min, current - step);
+      }
+      target.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     10. SMOOTH SCROLL FOR ANCHOR LINKS
+     ───────────────────────────────────────────── */
+  function initSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
+        var id = this.getAttribute('href').slice(1);
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  /* ─────────────────────────────────────────────
+     11. STICKY ADD-TO-CART (single-produk.php)
+     ───────────────────────────────────────────── */
+  function initStickyAddToCart() {
+    var stickyBar = document.getElementById('stickyAddToCart');
+    var mainCta   = document.getElementById('productMainCta');
+    if (!stickyBar || !mainCta) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          stickyBar.classList.remove('is-visible');
+        } else {
+          stickyBar.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(mainCta);
+  }
+
+  /* ─────────────────────────────────────────────
+     12. HEADER SCROLLED STYLE
+     ───────────────────────────────────────────── */
+  (function injectHeaderScrollStyles() {
+    if (document.getElementById('ukm-header-scroll-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'ukm-header-scroll-styles';
+    style.textContent = [
+      '#masthead.header-scrolled{box-shadow:0 2px 12px rgba(15,23,42,0.10);position:sticky;top:0;z-index:1000;background:#fff;}',
+      '.site-main-header{background:#fff;transition:box-shadow 0.3s ease;}',
+    ].join('');
+    document.head.appendChild(style);
+  })();
+
+  /* ─────────────────────────────────────────────
+     BOOTSTRAP ON READY
+     ───────────────────────────────────────────── */
+  ready(function () {
+    initMobileNav();
+    initStickyHeader();
+    initAddToCart();
+    initProductGallery();
+    initQtyButtons();
+    initSmoothScroll();
+    initStickyAddToCart();
+
+    // Sync cart badge on load
+    updateCartBadge(ukmCart.getCount());
+  });
+
 })();
+
+
+/* ─── TechNova Interactions ─── */
+document.addEventListener('DOMContentLoaded', function () {
+  // Mobile Nav Toggle
+  var navToggle = document.getElementById('nav-toggle');
+  var mobileMenu = document.getElementById('mobile-menu');
+  if (navToggle && mobileMenu) {
+    navToggle.addEventListener('click', function () {
+      mobileMenu.classList.toggle('is-open');
+    });
+  }
+
+  // Wishlist Heart Toggle
+  document.querySelectorAll('.prod-wishlist-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var svg = btn.querySelector('svg');
+      if (svg) {
+        if (svg.getAttribute('fill') === 'currentColor') {
+          svg.setAttribute('fill', 'none');
+          btn.style.color = '#64748b';
+        } else {
+          svg.setAttribute('fill', 'currentColor');
+          btn.style.color = '#ef4444';
+        }
+      }
+    });
+  });
+
+
+  // Slider buttons micro-interaction
+  var dots = document.querySelectorAll('.hero-dot');
+  var prevBtn = document.querySelector('.hero-arrow-prev');
+  var nextBtn = document.querySelector('.hero-arrow-next');
+  var currentDot = 0;
+
+  function updateDots(index) {
+    if (dots.length === 0) return;
+    dots.forEach(function (d) { d.classList.remove('active'); });
+    dots[index].classList.add('active');
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      currentDot = (currentDot + 1) % dots.length;
+      updateDots(currentDot);
+    });
+  }
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function () {
+      currentDot = (currentDot - 1 + dots.length) % dots.length;
+      updateDots(currentDot);
+    });
+  }
+});

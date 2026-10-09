@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Halaman Tentang Toko (Classic Facebook About Page)
+ * Template Name: Halaman Tentang Toko - Retro About Us
  *
  * @package UKM_Toko_Theme
  */
@@ -9,159 +9,108 @@ get_header();
 
 $wa_number = get_theme_mod('ukm_wa_number', '6281234567890');
 $wa_clean  = preg_replace('/[^0-9]/', '', $wa_number);
-$wa_url    = 'https://wa.me/' . $wa_clean . '?text=' . rawurlencode('Halo Admin Toko Bahri, saya ingin bertanya seputar toko.');
+$wa_url    = 'https://wa.me/' . $wa_clean . '?text=' . rawurlencode('Halo Admin Toko Berkah, saya ingin bertanya tentang toko.');
 ?>
 
-<div class="fb-3col-layout">
-    <!-- Left Sidebar Profile -->
-    <aside class="fb-col-left">
-        <div class="fb-left-card fb-profile-card">
-            <div class="fb-profile-avatar-box">
-                <span class="fb-profile-emoji">🏪</span>
+<main id="primary-content" class="about-page-main">
+    <div class="site-container">
+
+        <!-- Breadcrumbs -->
+        <div class="retro-breadcrumbs">
+            <a href="<?php echo esc_url(home_url('/')); ?>">&larr; Beranda</a>
+            <span class="bc-sep">/</span>
+            <span class="bc-current">Tentang Kami</span>
+        </div>
+
+        <!-- Hero Header -->
+        <div class="about-hero-card">
+            <div class="about-badge-pill">
+                <span>[PROFIL RESMI TOKO BERKAH]</span>
             </div>
-            <div class="fb-profile-info">
-                <h2 class="fb-profile-name">Toko Sembako Bahri</h2>
-                <span class="fb-profile-role">Toko Sembako Resmi · Terverifikasi</span>
-                <span class="fb-edit-profile-link">📍 Bandung, Jawa Barat</span>
+            <h1 class="about-main-title">Melayani Kebutuhan Sembako Keluarga & Usaha Warung Sejak 2018</h1>
+            <p class="about-main-subtitle">
+                Dari warung kelontong keluarga sederhana hingga menjadi sentra distributor sembako resmi di Kota Bandung. Berkomitmen menjaga timbangan pas, harga grosir jujur, dan pengiriman tepat waktu.
+            </p>
+        </div>
+
+        <!-- 3-Column Highlights -->
+        <div class="about-stats-grid">
+            <div class="stat-card">
+                <span class="stat-num">2018</span>
+                <strong class="stat-title">Tahun Didirikan</strong>
+                <p>Berpengalaman melayani ribuan dapur keluarga dan warung makan di seluruh Bandung.</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num">22+</span>
+                <strong class="stat-title">Produk Pokok Ready</strong>
+                <p>Beras pulen, minyak goreng resmi, gula kristal, tepung, telur, dan sabun higienis.</p>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num">100%</span>
+                <strong class="stat-title">Garansi Timbangan</strong>
+                <p>Digital kalibrasi akurat dan jaminan penggantian penuh jika timbangan kurang.</p>
             </div>
         </div>
 
-        <div class="fb-left-card fb-nav-card">
-            <span class="fb-card-heading">INFORMASI TOKO</span>
-            <ul class="fb-left-menu">
-                <li class="active">
-                    <a href="#tentang-kami">
-                        <span class="fb-menu-icon">📖</span>
-                        <span class="fb-menu-label">Profil & Sejarah</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#visi-misi">
-                        <span class="fb-menu-icon">🎯</span>
-                        <span class="fb-menu-label">Visi & Misi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#keunggulan">
-                        <span class="fb-menu-icon">⭐</span>
-                        <span class="fb-menu-label">Keunggulan Layanan</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo esc_url(home_url('/klien/')); ?>">
-                        <span class="fb-menu-icon">👥</span>
-                        <span class="fb-menu-label">Mitra Warung Binaan</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo esc_url(home_url('/kontak/')); ?>">
-                        <span class="fb-menu-icon">📞</span>
-                        <span class="fb-menu-label">Hubungi Kami</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
+        <!-- Story & Values Section -->
+        <div class="about-story-section">
+            <div class="story-content-card">
+                <span class="section-subtitle">[SEJARAH & PERJALANAN USAHA]</span>
+                <h2 class="story-heading">Membangun Ekosistem Pangan Lokal yang Adil & Berkelanjutan</h2>
+                
+                <p>
+                    <strong>Toko UKM Sembako Bahri</strong> berawal dari usaha ritel keluarga yang berlokasi di Bandung. Bermula dari sebuah warung kelontong kecil, kini Toko Berkah telah berkembang menjadi mitra pasokan sembilan bahan pokok bagi ratusan keluarga, warung makan, katering hajatan, hingga pedagang kelontong binaan.
+                </p>
+                <p>
+                    Kami menjalin kemitraan langsung dengan petani padi di Jawa Barat serta distributor resmi produsen pangan nasional (seperti Bimoli, Sania, Segitiga Biru, Gulaku, Rinso, dan Sunlight). Jalur distribusi pendek ini memungkinkan kami menawarkan harga grosir yang lebih hemat langsung kepada konsumen akhir.
+                </p>
 
-    <!-- Center Column: Profile Info & Wall of History -->
-    <section class="fb-col-center">
-        <!-- Profile Wall Card -->
-        <article class="fb-post-card" id="tentang-kami">
-            <div class="fb-post-header">
-                <div class="fb-post-avatar">
-                    <span class="fb-avatar-box">🏪</span>
-                </div>
-                <div class="fb-post-header-meta">
-                    <div class="fb-author-line">
-                        <strong class="fb-author-name">Toko Sembako Bahri</strong>
-                        <span class="fb-post-action-desc">memperbarui informasi tentang toko</span>
+                <!-- Value Pillars Grid -->
+                <div class="story-pillars-grid">
+                    <div class="pillar-box">
+                        <div class="pillar-badge">[MUTU]</div>
+                        <h4>Kualitas Tanpa Kompromi</h4>
+                        <p>Beras murni tanpa pemutih kimia, minyak higienis, serta masa simpan terjamin segar setiap hari.</p>
                     </div>
-                    <div class="fb-post-time">Profil Toko Resmi · 🌍 Publik</div>
-                </div>
-            </div>
-
-            <div class="fb-post-body" style="font-size:12px; line-height:1.7;">
-                <h2 style="font-size:18px; color:#3b5998; margin-bottom:10px;">Tentang Toko UKM Sembako Bahri</h2>
-                <p style="margin-bottom:12px;">
-                    <strong>Toko UKM Sembako Bahri</strong> berawal dari usaha ritel keluarga yang didirikan di Bandung pada tahun 2018. Bermula dari sebuah warung kelontong sederhana, kini Toko Bahri telah berkembang menjadi pusat penyedia aneka kebutuhan sembako dan sembilan bahan pokok terpercaya untuk ribuan keluarga, rumah makan, warung kelontong mitra binaan, hingga katering lokal di wilayah Bandung dan sekitarnya.
-                </p>
-                <p style="margin-bottom:14px;">
-                    Kami bermitra langsung dengan kelompok tani beras, pabrik penggilingan padi, dan distributor resmi produk sembako ternama nasional (seperti Bimoli, Sania, Gulaku, Segitiga Biru, Rinso, dan Lifebuoy) guna memastikan pasokan barang selalu segar, higienis, bergaransi resmi, serta memiliki harga grosir yang sangat bersaing.
-                </p>
-
-                <!-- Box Keunggulan -->
-                <div style="background:#f2f2f2; border:1px solid #d8dfea; padding:12px; margin-bottom:16px;" id="keunggulan">
-                    <h3 style="font-size:13px; color:#3b5998; margin-bottom:8px;">Komitmen Layanan Toko Bahri:</h3>
-                    <ul style="padding-left:18px; margin:0;">
-                        <li><strong>🌾 Kualitas Beras & Sembako Terpilih:</strong> Beras pulen murni tanpa pengawet atau pemutih kimiawi.</li>
-                        <li><strong>🚚 Layanan Antar Cepat (Same-Day Delivery):</strong> Pesanan langsung diantar ke depan pintu rumah atau kios warung mitra.</li>
-                        <li><strong>💳 Fleksibilitas Pembayaran:</strong> Menerima QRIS, Transfer Bank (BCA, Mandiri, BRI), serta Bayar di Tempat (COD).</li>
-                        <li><strong>🤝 Kemitraan Warung:</strong> Program khusus harga grosir dan tempo pembayaran untuk pedagang warung kelontong kecil.</li>
-                    </ul>
-                </div>
-
-                <!-- Visi Misi -->
-                <div id="visi-misi" style="border-top:1px solid #e9ebee; padding-top:12px;">
-                    <h3 style="font-size:14px; color:#3b5998; margin-bottom:6px;">Visi & Misi</h3>
-                    <p><strong>Visi:</strong> Menjadi rantai pasok sembako ritel dan grosir UKM yang paling terpercaya, transparan, dan terdepan dalam digitalisasi UMKM Indonesia.</p>
-                    <p><strong>Misi:</strong> Memberikan akses kebutuhan pokok murah dan berkualitas untuk masyarakat luas serta memberdayakan warung makan dan warung sembako lokal agar mandiri secara ekonomi.</p>
-                </div>
-            </div>
-
-            <!-- Action Bar -->
-            <div class="fb-post-actions-bar">
-                <button type="button" class="fb-action-btn fb-like-btn" data-liked="false" data-count="94">
-                    <span class="fb-action-icon">👍</span>
-                    <span class="fb-action-label">Suka Profil Toko</span>
-                </button>
-                <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="fb-action-btn">
-                    <span class="fb-action-icon">🛍️</span>
-                    <span class="fb-action-label">Belanja Produk</span>
-                </a>
-                <a href="<?php echo esc_url($wa_url); ?>" target="_blank" class="fb-action-btn fb-action-wa">
-                    <span class="fb-action-icon">💬</span>
-                    <span class="fb-action-label">Tanya Admin WA</span>
-                </a>
-            </div>
-
-            <div class="fb-post-feedback">
-                <span class="fb-mini-like-icon">👍</span>
-                <span class="fb-likes-text">
-                    <strong>Bu RT</strong>, <strong>Pak Slamet</strong>, dan <strong>94 orang lainnya</strong> menyukai Toko Sembako Bahri.
-                </span>
-            </div>
-        </article>
-    </section>
-
-    <!-- Right Column Sidebar -->
-    <aside class="fb-col-right">
-        <div class="fb-right-card">
-            <div class="fb-right-card-header">
-                <span class="fb-header-title">LEGALITAS & IZIN TOKO</span>
-            </div>
-            <div style="font-size:11px; line-height:1.5; color:#555;">
-                <p><strong>Nomor Induk Berusaha (NIB):</strong> 912000832194</p>
-                <p><strong>Izin Edar:</strong> P-IRT & Kementan RI</p>
-                <p><strong>Sertifikasi Halal:</strong> BPJPH Kemenag</p>
-                <p><strong>Status:</strong> Terdaftar Resmi di Dinas Koperasi & UKM Kota Bandung</p>
-            </div>
-        </div>
-
-        <div class="fb-right-card fb-ads-card">
-            <div class="fb-right-card-header">
-                <span class="fb-header-title">PROMO TERBARU</span>
-            </div>
-            <div class="fb-ad-item">
-                <div class="fb-ad-thumb">🌾</div>
-                <div class="fb-ad-content">
-                    <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="fb-ad-title">Beras Rojolele 5kg Super</a>
-                    <span class="fb-ad-url">tokobahri.urmin.my.id</span>
-                    <p class="fb-ad-desc">Beli 2 karung gratis ongkir area sekitar toko! Mulai Rp 75.000.</p>
+                    <div class="pillar-box">
+                        <div class="pillar-badge">[KILAT]</div>
+                        <h4>Pengiriman Same-Day</h4>
+                        <p>Armada kurir toko siap mengantar pesanan sebelum jam 17:00 WIB langsung ke depan pintu Anda.</p>
+                    </div>
+                    <div class="pillar-box">
+                        <div class="pillar-badge">[MITRA]</div>
+                        <h4>Kemitraan Warung Binaan</h4>
+                        <p>Dukungan harga khusus grosir dan pasokan berkala bagi pemilik warung kelontong kecil.</p>
+                    </div>
+                    <div class="pillar-box">
+                        <div class="pillar-badge">[MUDAH]</div>
+                        <h4>Transaksi Fleksibel</h4>
+                        <p>Mendukung metode transfer bank, scan QRIS instan, maupun bayar tunai di tempat (COD).</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </aside>
-</div>
+
+        <!-- Call to Action Card -->
+        <div class="about-cta-card">
+            <div class="cta-inner-flex">
+                <div class="cta-text-col">
+                    <h3 class="cta-heading">Ingin Bermitra atau Pesan Sembako dalam Jumlah Banyak?</h3>
+                    <p class="cta-desc">Hubungi staf admin Toko Berkah sekarang untuk mendapatkan penawaran harga grosir terbaik dan jadwal antar ke alamat Anda.</p>
+                </div>
+                <div class="cta-btns">
+                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" rel="noopener noreferrer" class="retro-btn-cta-black">
+                        Hubungi via WhatsApp &rarr;
+                    </a>
+                    <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="retro-btn-cta-white">
+                        Lihat Katalog Produk &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
 
 <?php
 get_footer();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Template for displaying all single blog posts
+ * Single Post Template — Toko Berkah
  *
  * @package UKM_Toko_Theme
  */
@@ -8,47 +8,108 @@
 get_header();
 ?>
 
-<div class="ukm-container" style="padding-top:40px; padding-bottom:60px; max-width:880px;">
-    <?php while (have_posts()) : the_post(); ?>
-        <article id="post-<?php the_ID(); ?>" <?php post_class('ukm-single-article'); ?> style="background:#fff; border-radius:var(--ukm-radius); padding:40px; box-shadow:var(--ukm-shadow-sm); border:1px solid var(--ukm-gray-200);">
-            <header style="margin-bottom:24px;">
-                <div style="display:flex; gap:12px; font-size:0.875rem; color:#64748b; margin-bottom:12px;">
-                    <span>📅 <?php echo get_the_date(); ?></span>
-                    <span>✍️ Ditulis oleh <?php the_author(); ?></span>
-                </div>
-                <h1 style="font-size:2.4rem; font-weight:800; line-height:1.25; color:var(--ukm-dark);"><?php the_title(); ?></h1>
-            </header>
+<main id="primary-content" class="single-post-main">
+    <div class="site-container single-post-layout">
+        <div class="single-post-content-col">
 
-            <?php if (has_post_thumbnail()) : ?>
-                <div style="margin-bottom:30px; border-radius:12px; overflow:hidden;">
-                    <?php the_post_thumbnail('large', array('style' => 'width:100%; height:auto;')); ?>
-                </div>
-            <?php endif; ?>
+            <?php if ( function_exists( 'ukm_toko_breadcrumbs' ) ) ukm_toko_breadcrumbs(); ?>
 
-            <div class="ukm-article-body" style="font-size:1.1rem; line-height:1.8; color:#334155;">
-                <?php the_content(); ?>
-            </div>
+            <?php while ( have_posts() ) : the_post(); ?>
+                <article id="post-<?php the_ID(); ?>" <?php post_class( 'single-post-article' ); ?> itemscope itemtype="https://schema.org/Article">
 
-            <!-- Author Box -->
-            <div style="margin-top:40px; padding-top:24px; border-top:1px solid var(--ukm-gray-200); display:flex; align-items:center; gap:16px;">
-                <div style="width:50px; height:50px; border-radius:50%; background:var(--ukm-primary-light); color:var(--ukm-primary-dark); display:flex; align-items:center; justify-content:center; font-weight:700;">
-                    <?php echo strtoupper(substr(get_the_author(), 0, 1)); ?>
-                </div>
-                <div>
-                    <strong><?php the_author(); ?></strong>
-                    <p style="margin:0; font-size:0.875rem; color:#64748b;">Tim Editorial Toko UKM Sembako</p>
-                </div>
-            </div>
+                    <!-- Post Header -->
+                    <header class="single-post-header">
+                        <?php
+                        $cats = get_the_category();
+                        if ( $cats ) :
+                        ?>
+                        <div class="post-cats">
+                            <?php foreach ( $cats as $c ) : ?>
+                            <a href="<?php echo esc_url( get_category_link( $c->term_id ) ); ?>" class="ukm-badge ukm-badge-green">
+                                <?php echo esc_html( $c->name ); ?>
+                            </a>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php endif; ?>
 
-            <?php
-            // If comments are open or we have at least one comment, load up the comment template.
-            if (comments_open() || get_comments_number()) :
-                comments_template();
-            endif;
-            ?>
-        </article>
-    <?php endwhile; ?>
-</div>
+                        <h1 class="single-post-title" itemprop="headline"><?php the_title(); ?></h1>
+
+                        <div class="post-meta">
+                            <span class="post-meta-date" itemprop="datePublished" content="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
+                                📅 <?php echo get_the_date( 'j F Y' ); ?>
+                            </span>
+                            <span class="post-meta-sep" aria-hidden="true">•</span>
+                            <span class="post-meta-author" itemprop="author">
+                                ✍️ <?php the_author(); ?>
+                            </span>
+                            <?php if ( ! is_singular( 'produk' ) ) : ?>
+                            <span class="post-meta-sep" aria-hidden="true">•</span>
+                            <span class="post-meta-read"><?php echo esc_html( (int) ceil( str_word_count( strip_tags( get_the_content() ) ) / 200 ) ); ?> <?php esc_html_e( 'menit baca', 'ukm-toko-theme' ); ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </header>
+
+                    <!-- Featured Image -->
+                    <?php if ( has_post_thumbnail() ) : ?>
+                    <div class="single-post-thumb" itemprop="image">
+                        <?php the_post_thumbnail( 'large', array( 'loading' => 'eager' ) ); ?>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Post Content -->
+                    <div class="single-post-body entry-content" itemprop="articleBody">
+                        <?php
+                        the_content( sprintf(
+                            '<a href="%s">' . esc_html__( 'Baca lebih lanjut', 'ukm-toko-theme' ) . '</a>',
+                            the_permalink()
+                        ) );
+                        wp_link_pages( array(
+                            'before' => '<div class="page-links">' . esc_html__( 'Halaman:', 'ukm-toko-theme' ),
+                            'after'  => '</div>',
+                        ) );
+                        ?>
+                    </div>
+
+                    <!-- Post Footer (Tags) -->
+                    <footer class="single-post-footer">
+                        <?php
+                        $tags_list = get_the_tag_list( '<div class="post-tags"><span class="tags-label">' . esc_html__( 'Tag:', 'ukm-toko-theme' ) . '</span> ', ', ', '</div>' );
+                        echo wp_kses_post( $tags_list );
+                        ?>
+                        <div class="post-share">
+                            <span><?php esc_html_e( 'Bagikan:', 'ukm-toko-theme' ); ?></span>
+                            <a href="https://wa.me/?text=<?php echo rawurlencode( get_the_title() . ' ' . get_permalink() ); ?>" target="_blank" rel="noopener noreferrer" class="share-wa">WhatsApp</a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo rawurlencode( get_permalink() ); ?>" target="_blank" rel="noopener noreferrer" class="share-fb">Facebook</a>
+                        </div>
+                    </footer>
+
+                    <!-- Post Navigation -->
+                    <nav class="single-post-nav" aria-label="<?php esc_attr_e( 'Navigasi artikel', 'ukm-toko-theme' ); ?>">
+                        <?php
+                        the_post_navigation( array(
+                            'prev_text' => '&larr; <span>%title</span>',
+                            'next_text' => '<span>%title</span> &rarr;',
+                        ) );
+                        ?>
+                    </nav>
+
+                </article><!-- .single-post-article -->
+
+                <!-- Comments -->
+                <?php if ( comments_open() || get_comments_number() ) : ?>
+                    <?php comments_template(); ?>
+                <?php endif; ?>
+
+            <?php endwhile; ?>
+
+        </div><!-- .single-post-content-col -->
+
+        <aside class="single-post-sidebar">
+            <?php get_sidebar(); ?>
+        </aside>
+
+    </div><!-- .single-post-layout -->
+</main>
 
 <?php
 get_footer();

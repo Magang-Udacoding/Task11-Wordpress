@@ -40,6 +40,27 @@
             "default_value": "pcs"
         },
         {
+            "key": "field_produk_gambar_utama",
+            "label": "Gambar Utama Produk",
+            "name": "gambar_utama",
+            "type": "image",
+            "return_format": "array"
+        },
+        {
+            "key": "field_produk_gallery",
+            "label": "Galeri Gambar Produk",
+            "name": "galeri_produk",
+            "type": "gallery",
+            "return_format": "array"
+        },
+        {
+            "key": "field_produk_deskripsi_singkat",
+            "label": "Deskripsi Singkat",
+            "name": "deskripsi_singkat",
+            "type": "textarea",
+            "rows": 3
+        },
+        {
             "key": "field_produk_specs_group",
             "label": "Spesifikasi Produk (Group Specs)",
             "name": "spesifikasi",
@@ -58,9 +79,21 @@
                     "type": "text"
                 },
                 {
+                    "key": "field_spec_produsen",
+                    "label": "Produsen / Merk",
+                    "name": "produsen",
+                    "type": "text"
+                },
+                {
                     "key": "field_spec_kadaluarsa",
                     "label": "Masa Kadaluarsa",
                     "name": "masa_kadaluarsa",
+                    "type": "text"
+                },
+                {
+                    "key": "field_spec_sertifikasi",
+                    "label": "Sertifikasi (BPOM/Halal)",
+                    "name": "sertifikasi",
                     "type": "text"
                 }
             ]

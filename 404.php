@@ -1,6 +1,6 @@
 <?php
 /**
- * 404 Error Page Template
+ * 404 Not Found Template — Toko Berkah
  *
  * @package UKM_Toko_Theme
  */
@@ -8,33 +8,41 @@
 get_header();
 ?>
 
-<div class="ukm-container" style="padding: 80px 20px; text-align: center; max-width: 680px;">
-    <div style="font-size: 5rem; line-height: 1; margin-bottom: 20px;">🛒💨</div>
-    <span class="ukm-badge ukm-badge-accent" style="margin-bottom: 15px;">KODE ERROR 404</span>
-    <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--ukm-dark); margin-bottom: 16px;">
-        Waduh! Halaman Tidak Ditemukan
-    </h1>
-    <p style="font-size: 1.1rem; color: #64748b; margin-bottom: 30px;">
-        Halaman produk atau artikel yang Anda cari mungkin sudah dipindahkan, dihapus, atau stok sembako sedang kami perbarui.
-    </p>
+<main id="primary-content" class="not-found-main">
+    <div class="site-container">
+        <div class="not-found-box">
+            <div class="not-found-icon" aria-hidden="true">🔍</div>
+            <h1 class="not-found-title"><?php esc_html_e( 'Halaman Tidak Ditemukan', 'ukm-toko-theme' ); ?></h1>
+            <p class="not-found-desc">
+                <?php esc_html_e( 'Maaf, halaman yang Anda cari tidak ada atau sudah dipindahkan. Silakan cari produk atau kembali ke beranda Toko Berkah.', 'ukm-toko-theme' ); ?>
+            </p>
 
-    <!-- Search form -->
-    <div style="max-width: 450px; margin: 0 auto 30px;">
-        <form role="search" method="get" class="ukm-search-form" action="<?php echo esc_url(home_url('/')); ?>" style="display:flex;">
-            <input type="search" class="ukm-search-input" placeholder="Cari sembako lain (misal: beras, minyak)..." value="<?php echo get_search_query(); ?>" name="s" style="flex:1; padding:12px 16px; border:1px solid #cbd5e1; border-radius:8px 0 0 8px;" />
-            <button type="submit" class="ukm-btn ukm-btn-primary" style="border-radius:0 8px 8px 0;">Cari</button>
-        </form>
-    </div>
+            <!-- Quick Search -->
+            <form method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="search-form-header" style="margin-bottom:24px; max-width:380px; margin-inline:auto;">
+                <span class="search-icon" aria-hidden="true">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                </span>
+                <input type="search" name="s"
+                       placeholder="<?php esc_attr_e( 'Cari produk sembako…', 'ukm-toko-theme' ); ?>"
+                       aria-label="<?php esc_attr_e( 'Cari produk', 'ukm-toko-theme' ); ?>">
+                <input type="hidden" name="post_type" value="produk">
+                <button type="submit" class="search-submit-btn"><?php esc_html_e( 'Cari', 'ukm-toko-theme' ); ?></button>
+            </form>
 
-    <div>
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="ukm-btn ukm-btn-outline" style="margin-right: 10px;">
-            &larr; Kembali ke Beranda
-        </a>
-        <a href="<?php echo esc_url(get_post_type_archive_link('produk')); ?>" class="ukm-btn ukm-btn-primary">
-            Lihat Katalog Sembako
-        </a>
+            <div class="not-found-actions">
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ukm-btn ukm-btn-primary">
+                    🏠 <?php esc_html_e( 'Kembali ke Beranda', 'ukm-toko-theme' ); ?>
+                </a>
+                <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="ukm-btn ukm-btn-outline" style="color:var(--dark); border-color:var(--slate-200);">
+                    🛍️ <?php esc_html_e( 'Lihat Katalog', 'ukm-toko-theme' ); ?>
+                </a>
+            </div>
+        </div>
     </div>
-</div>
+</main>
 
 <?php
 get_footer();

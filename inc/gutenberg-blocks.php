@@ -87,21 +87,21 @@ function ukm_toko_render_hero_banner_block($attributes) {
     $btn_text   = !empty($attributes['buttonText']) ? esc_html($attributes['buttonText']) : 'Belanja Sekarang';
     $btn_url    = !empty($attributes['buttonUrl']) ? esc_url($attributes['buttonUrl']) : '#katalog';
     $wa_number  = get_theme_mod('ukm_wa_number', '6281234567890');
-    $wa_url     = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $wa_number) . '?text=' . rawurlencode('Halo Admin Toko Bahri, saya ingin memesan sembako.');
+    $wa_url     = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $wa_number) . '?text=' . rawurlencode('Halo Admin Toko Berkah, saya ingin memesan sembako.');
 
     ob_start();
     ?>
     <section class="ukm-hero-banner" style="background: linear-gradient(135deg, #065f46 0%, #0f172a 100%); color:#fff; padding: 70px 20px; border-radius: var(--ukm-radius-lg); margin-bottom: 40px; position:relative; overflow:hidden;">
         <div style="max-width:800px; margin:0 auto; text-align:center;">
-            <span class="ukm-badge" style="background:rgba(255,255,255,0.2); color:#fff; margin-bottom:15px;">🌟 TOKO SEMBAKO & RETAIL UKM TERPERCAYA</span>
+            <span class="ukm-badge" style="background:rgba(255,255,255,0.2); color:#fff; margin-bottom:15px;">ðŸŒŸ TOKO SEMBAKO & RETAIL UKM TERPERCAYA</span>
             <h1 style="font-size: clamp(2rem, 4vw, 3.2rem); font-weight:800; line-height:1.2; margin-bottom:18px; letter-spacing:-0.02em;"><?php echo $title; ?></h1>
             <p style="font-size: 1.15rem; color:#d1fae5; margin-bottom:30px; line-height:1.6;"><?php echo $subtitle; ?></p>
             <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
                 <a href="<?php echo $btn_url; ?>" class="ukm-btn ukm-btn-accent" style="padding:12px 28px; font-size:1.05rem;">
-                    🛍️ <?php echo $btn_text; ?>
+                    ðŸ›ï¸ <?php echo $btn_text; ?>
                 </a>
                 <a href="<?php echo esc_url($wa_url); ?>" target="_blank" rel="noopener noreferrer" class="ukm-btn ukm-btn-wa" style="padding:12px 28px; font-size:1.05rem;">
-                    💬 Pesan Cepat via WA
+                    ðŸ’¬ Pesan Cepat via WA
                 </a>
             </div>
         </div>
@@ -152,7 +152,7 @@ function ukm_toko_render_testimonial_block($attributes) {
                 $testimoni = ukm_get_field('testimoni_klien') ?: get_the_excerpt();
             ?>
                 <div style="background:#fff; border-radius:var(--ukm-radius); padding:24px; box-shadow:var(--ukm-shadow-sm); border:1px solid var(--ukm-gray-200);">
-                    <div style="color:#f59e0b; margin-bottom:10px;">★★★★★</div>
+                    <div style="color:#f59e0b; margin-bottom:10px;">â˜…â˜…â˜…â˜…â˜…</div>
                     <p style="font-style:italic; color:#334155; margin-bottom:15px; font-size:0.95rem;">"<?php echo esc_html($testimoni); ?>"</p>
                     <div style="display:flex; align-items:center; gap:12px;">
                         <div style="width:40px; height:40px; border-radius:50%; background:var(--ukm-primary-light); color:var(--ukm-primary-dark); display:flex; align-items:center; justify-content:center; font-weight:700;">
@@ -179,3 +179,4 @@ function ukm_toko_render_testimonial_block($attributes) {
     <?php
     return ob_get_clean();
 }
+

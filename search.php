@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying search results pages
+ * Search Results Template — Toko Berkah
  *
  * @package UKM_Toko_Theme
  */
@@ -8,46 +8,79 @@
 get_header();
 ?>
 
-<main id="primary-content" class="ukm-main-site-content">
-    <div class="ukm-container" style="max-width:1200px; margin:30px auto; padding:0 20px;">
-        <?php if (function_exists('ukm_toko_breadcrumbs')) ukm_toko_breadcrumbs(); ?>
+<main id="primary-content" class="search-main">
 
-        <header class="ukm-search-header" style="margin-bottom:28px; border-bottom:2px solid #e2e8f0; padding-bottom:16px;">
-            <h1 class="ukm-page-title" style="font-size:1.8rem; font-weight:800; color:#0f172a;">
+    <div class="archive-page-header">
+        <div class="site-container">
+            <?php if ( function_exists( 'ukm_toko_breadcrumbs' ) ) ukm_toko_breadcrumbs(); ?>
+            <h1 class="archive-page-title">
                 <?php
-                /* translators: %s: search query. */
-                printf(esc_html__('Hasil Pencarian untuk: "%s"', 'ukm-toko-theme'), '<span style="color:#059669;">' . get_search_query() . '</span>');
+                printf(
+                    /* translators: %s search query */
+                    esc_html__( 'Hasil pencarian: "%s"', 'ukm-toko-theme' ),
+                    '<em>' . esc_html( get_search_query() ) . '</em>'
+                );
                 ?>
             </h1>
-            <p style="color:#64748b; font-size:0.95rem; margin-top:6px;">
-                Ditemukan <?php echo (int)$wp_query->found_posts; ?> item yang sesuai.
-            </p>
-        </header>
-
-        <?php if (have_posts()) : ?>
-            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:20px;">
+            <p class="archive-page-desc">
                 <?php
-                while (have_posts()) : the_post();
-                    if (get_post_type() === 'produk') {
-                        get_template_part('template-parts/content', 'produk');
-                    } else {
-                        get_template_part('template-parts/content', 'page');
-                    }
+                if ( have_posts() ) :
+                    printf(
+                        /* translators: 1: result count, 2: query */
+                        esc_html__( 'Ditemukan %1$d hasil untuk "%2$s"', 'ukm-toko-theme' ),
+                        (int) $wp_query->found_posts,
+                        esc_html( get_search_query() )
+                    );
+                else :
+                    printf(
+                        /* translators: %s search query */
+                        esc_html__( 'Tidak ada hasil untuk "%s"', 'ukm-toko-theme' ),
+                        esc_html( get_search_query() )
+                    );
+                endif;
+                ?>
+            </p>
+        </div>
+    </div>
+
+    <div class="site-container">
+        <?php if ( have_posts() ) : ?>
+            <div class="archive-posts-grid">
+                <?php
+                while ( have_posts() ) : the_post();
+                    get_template_part( 'template-parts/content' );
                 endwhile;
                 ?>
             </div>
 
-            <div class="ukm-pagination" style="margin-top:30px;">
+            <nav class="pagination" aria-label="<?php esc_attr_e( 'Navigasi hasil pencarian', 'ukm-toko-theme' ); ?>">
                 <?php
-                the_posts_pagination(array(
+                the_posts_pagination( array(
                     'mid_size'  => 2,
-                    'prev_text' => __('&laquo; Sebelumnya', 'ukm-toko-theme'),
-                    'next_text' => __('Selanjutnya &raquo;', 'ukm-toko-theme'),
-                ));
+                    'prev_text' => '&laquo; ' . esc_html__( 'Sebelumnya', 'ukm-toko-theme' ),
+                    'next_text' => esc_html__( 'Berikutnya', 'ukm-toko-theme' ) . ' &raquo;',
+                ) );
                 ?>
-            </div>
+            </nav>
+
         <?php else : ?>
-            <?php get_template_part('template-parts/content', 'none'); ?>
+            <div class="not-found-box">
+                <div class="not-found-icon" aria-hidden="true">😕</div>
+                <h2 class="not-found-title">
+                    <?php printf( esc_html__( 'Tidak ada hasil untuk "%s"', 'ukm-toko-theme' ), esc_html( get_search_query() ) ); ?>
+                </h2>
+                <p class="not-found-desc">
+                    <?php esc_html_e( 'Coba kata kunci lain atau telusuri seluruh katalog produk kami.', 'ukm-toko-theme' ); ?>
+                </p>
+                <div class="not-found-actions">
+                    <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="ukm-btn ukm-btn-primary">
+                        🛍️ <?php esc_html_e( 'Lihat Semua Produk', 'ukm-toko-theme' ); ?>
+                    </a>
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="ukm-btn ukm-btn-outline" style="color:var(--dark); border-color:var(--slate-200);">
+                        🏠 <?php esc_html_e( 'Kembali ke Beranda', 'ukm-toko-theme' ); ?>
+                    </a>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 </main>

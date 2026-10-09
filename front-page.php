@@ -1,370 +1,336 @@
 <?php
 /**
- * Modern Front Page Template - Ultra-Modern E-Commerce Storefront
+ * Homepage Template (front-page.php) — Riper Mart Storefront
+ * Matches exact layout from reference mockup:
+ * Hero Banner, Categories, Best Sellers, Promo Banner, Value Props, Footer
  *
  * @package UKM_Toko_Theme
  */
 
 get_header();
-
-$wa_number = get_theme_mod('ukm_wa_number', '6281234567890');
-$wa_clean  = preg_replace('/[^0-9]/', '', $wa_number);
-$wa_url    = 'https://wa.me/' . $wa_clean . '?text=' . rawurlencode('Halo Admin Toko Bahri, saya ingin pesan sembako untuk diantar ke rumah/warung.');
 ?>
 
-<main id="primary-content" class="modern-home-main">
+<main id="primary-content" class="technova-main-content">
 
-    <!-- ============================================================= -->
-    <!-- 1. MODERN HERO BANNER SECTION                                 -->
-    <!-- ============================================================= -->
-    <section class="modern-hero-section">
-        <div class="site-container hero-grid-layout">
-            <!-- Left: Value Prop & CTA -->
-            <div class="hero-text-col">
-                <div class="hero-badge-pill">
-                    <span class="badge-icon">🌿</span>
-                    <span>PUSAT SEMBAKO & RETAIL GROSIR RESMI</span>
-                </div>
-                <h1 class="hero-main-title">
-                    Kebutuhan Sembako Rumah & Usaha Warung, <span class="text-gradient">Segar & Hemat.</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Beras rojolele pulen, minyak goreng, gula, telur, dan sabun lengkap langsung dari gudang. Dijamin timbangan pas, harga grosir jujur, dan siap diantar same-day ke alamat Anda.
-                </p>
+    <!-- ═══════════════════════════════════════════════════════
+         1. HERO BANNER SECTION
+         ═══════════════════════════════════════════════════════ -->
+    <section class="technova-hero-section" aria-label="<?php esc_attr_e( 'Banner Utama', 'ukm-toko-theme' ); ?>">
+        <div class="site-container">
+            <div class="technova-hero-card">
 
-                <div class="hero-cta-group">
-                    <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="btn-primary-hero">
-                        <span>🛍️ Belanja Katalog Lengkap</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                    </a>
-                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" rel="noopener noreferrer" class="btn-wa-hero">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.077-1.127-.061-.271-.088-.61-.205-1.045-.395-1.841-.806-3.037-2.673-3.129-2.796-.092-.124-.744-.991-.744-1.89s.471-1.341.638-1.523c.168-.182.366-.228.489-.228.123 0 .245.001.353.006.113.006.264-.043.413.315.153.367.52 1.27.565 1.363.046.092.077.2.015.323-.061.124-.092.2-.184.308-.092.108-.194.241-.277.324-.092.092-.188.192-.081.376.108.183.479.79 1.026 1.278.704.628 1.298.822 1.482.914.184.092.292.077.4-.046.108-.124.46-1.339.583-.454.123-.114.246-.092.414-.03.168.061 1.069.504 1.253.596.184.092.306.138.352.215.046.077.046.445-.098.85z"/>
-                        </svg>
-                        <span>Pesan via WhatsApp</span>
-                    </a>
-                </div>
+                <!-- Hero Content Row -->
+                <div class="hero-card-grid">
 
-                <!-- Trust Micro Badges -->
-                <div class="hero-trust-bar">
-                    <div class="trust-item">
-                        <span class="trust-icon">⚡</span>
-                        <div class="trust-desc">
-                            <strong>Diantar Hari Ini</strong>
-                            <small>Order sebelum jam 17:00</small>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <span class="trust-icon">⚖️</span>
-                        <div class="trust-desc">
-                            <strong>Timbangan Presisi</strong>
-                            <small>Garansi timbangan pas</small>
-                        </div>
-                    </div>
-                    <div class="trust-item">
-                        <span class="trust-icon">🏷️</span>
-                        <div class="trust-desc">
-                            <strong>Harga Grosir</strong>
-                            <small>Hemat untuk warung & rumah</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right: Highlighted Promo Showcase Card -->
-            <div class="hero-card-col">
-                <div class="hero-featured-card">
-                    <div class="featured-badge-ribbon">⭐ PRODUK TERLARIS</div>
-                    <div class="featured-img-wrap">
-                        <img src="<?php echo esc_url(UKM_THEME_URI . '/assets/images/products/201.jpg'); ?>" alt="Beras Premium Rojolele 5kg" class="featured-card-img" />
-                    </div>
-                    <div class="featured-card-body">
-                        <div class="featured-card-cat">🌾 Beras & Sembako Pokok</div>
-                        <h3 class="featured-card-title">Beras Premium Rojolele 5kg Super Pulen</h3>
-                        <p class="featured-card-desc">Beras putih bersih alami tanpa pemutih kimia. Pulen, wangi, dan awet seharian tidak mudah basi.</p>
-                        
-                        <div class="featured-price-row">
-                            <div class="price-stack">
-                                <span class="current-price">Rp 75.000</span>
-                                <span class="old-price">Rp 85.000</span>
-                            </div>
-                            <span class="save-tag">Hemat Rp 10.000</span>
+                    <!-- Left: Copy & Value Props -->
+                    <div class="hero-copy-col">
+                        <div class="hero-pill-badge">
+                            <span class="badge-sparkle">✦</span>
+                            <span><?php esc_html_e( 'Produk Unggulan & Segar', 'ukm-toko-theme' ); ?></span>
                         </div>
 
-                        <div class="featured-action-row">
-                            <button type="button" class="btn-card-cart btn-quick-add" data-id="201" data-title="Beras Premium Rojolele 5kg" data-price="75000" data-thumb="<?php echo esc_url(UKM_THEME_URI . '/assets/images/products/201.jpg'); ?>">
-                                🛒 Tambah ke Keranjang
-                            </button>
-                            <a href="<?php echo esc_url(home_url('/checkout/')); ?>" class="btn-card-checkout">
-                                Kasir &rarr;
+                        <h1 class="hero-technova-title">
+                            <?php esc_html_e( 'Kebutuhan Harian & Sembako', 'ukm-toko-theme' ); ?><br>
+                            <span class="hero-title-highlight"><?php esc_html_e( 'Pasti Lengkap & Hemat', 'ukm-toko-theme' ); ?></span>
+                        </h1>
+
+                        <p class="hero-technova-desc">
+                            <?php esc_html_e( 'Penuhi kebutuhan beras pulen, minyak goreng kemasan, gula pasir, minuman segar, dan perlengkapan harian keluarga Anda dengan harga terbaik langsung dari toko kami.', 'ukm-toko-theme' ); ?>
+                        </p>
+
+                        <div class="hero-cta-wrap">
+                            <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="btn-technova-primary">
+                                <span><?php esc_html_e( 'Belanja Katalog Sekarang', 'ukm-toko-theme' ); ?></span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
                             </a>
                         </div>
+
+                        <!-- 3 Trust Icons -->
+                        <div class="hero-trust-row">
+                            <div class="hero-trust-item">
+                                <div class="trust-icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2">
+                                        <rect x="1" y="3" width="15" height="13" rx="1"/>
+                                        <polygon points="16 8 20 8 23 11 23 16 16 16 8"/>
+                                        <circle cx="5.5" cy="18.5" r="2.5"/>
+                                        <circle cx="18.5" cy="18.5" r="2.5"/>
+                                    </svg>
+                                </div>
+                                <div class="trust-text-box">
+                                    <strong><?php esc_html_e( 'Pengiriman Cepat', 'ukm-toko-theme' ); ?></strong>
+                                    <span><?php esc_html_e( 'Siap Antar ke Rumah', 'ukm-toko-theme' ); ?></span>
+                                </div>
+                            </div>
+
+                            <div class="hero-trust-item">
+                                <div class="trust-icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                        <polyline points="9 11 12 14 22 4"/>
+                                    </svg>
+                                </div>
+                                <div class="trust-text-box">
+                                    <strong><?php esc_html_e( 'Pembayaran Aman', 'ukm-toko-theme' ); ?></strong>
+                                    <span><?php esc_html_e( 'COD & Transfer Bank', 'ukm-toko-theme' ); ?></span>
+                                </div>
+                            </div>
+
+                            <div class="hero-trust-item">
+                                <div class="trust-icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2">
+                                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                                    </svg>
+                                </div>
+                                <div class="trust-text-box">
+                                    <strong><?php esc_html_e( 'Layanan Ramah', 'ukm-toko-theme' ); ?></strong>
+                                    <span><?php esc_html_e( 'Setiap Hari Siap Melayani', 'ukm-toko-theme' ); ?></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Right: Product Collage Image -->
+                    <div class="hero-image-col">
+                        <div class="hero-image-container">
+                            <img src="<?php echo esc_url( UKM_THEME_URI . '/assets/images/technova/hero-technova.jpg' ); ?>"
+                                 alt="<?php esc_attr_e( 'Koleksi Produk Sembako Riper Mart', 'ukm-toko-theme' ); ?>"
+                                 class="hero-mockup-img"
+                                 loading="eager" />
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- ============================================================= -->
-    <!-- 2. CATEGORY PILLS / CARDS                                     -->
-    <!-- ============================================================= -->
-    <section class="section-categories">
+    <!-- ═══════════════════════════════════════════════════════
+         2. CATEGORIES SECTION (Jelajahi Berdasarkan Kategori)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="technova-categories-section" id="categories">
         <div class="site-container">
-            <div class="section-header-row">
-                <div>
-                    <span class="section-subtitle">KATEGORI PILIHAN</span>
-                    <h2 class="section-title">Kebutuhan Sembako Lengkap</h2>
+
+            <div class="section-title-row">
+                <div class="section-title-left">
+                    <span class="section-tag-sub"><?php esc_html_e( '— KATEGORI PILIHAN', 'ukm-toko-theme' ); ?></span>
+                    <h2 class="section-main-heading"><?php esc_html_e( 'Jelajahi Berdasarkan Kategori', 'ukm-toko-theme' ); ?></h2>
                 </div>
-                <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="view-all-link">Lihat Semua Kategori &rarr;</a>
-            </div>
-
-            <div class="category-cards-grid">
-                <a href="<?php echo esc_url(home_url('/produk/?kategori=sembako')); ?>" class="cat-box cat-sembako">
-                    <div class="cat-icon-circle">🌾</div>
-                    <div class="cat-info">
-                        <h3>Beras & Sembako</h3>
-                        <p>Beras, minyak, gula, tepung, telur</p>
-                        <span class="cat-count">8+ Produk Ready</span>
-                    </div>
-                </a>
-
-                <a href="<?php echo esc_url(home_url('/produk/?kategori=minuman')); ?>" class="cat-box cat-minuman">
-                    <div class="cat-icon-circle">🧃</div>
-                    <div class="cat-info">
-                        <h3>Minuman & Susu</h3>
-                        <p>Teh celup, kopi, susu, sirup manis</p>
-                        <span class="cat-count">4+ Produk Ready</span>
-                    </div>
-                </a>
-
-                <a href="<?php echo esc_url(home_url('/produk/?kategori=kebersihan')); ?>" class="cat-box cat-kebersihan">
-                    <div class="cat-icon-circle">🧼</div>
-                    <div class="cat-info">
-                        <h3>Sabun & Cuci</h3>
-                        <p>Deterjen, sabun cuci piring, karbol</p>
-                        <span class="cat-count">5+ Produk Ready</span>
-                    </div>
-                </a>
-
-                <a href="<?php echo esc_url(home_url('/produk/?kategori=snack')); ?>" class="cat-box cat-snack">
-                    <div class="cat-icon-circle">🍪</div>
-                    <div class="cat-info">
-                        <h3>Camilan & Snack</h3>
-                        <p>Biskuit, keripik gurih, wafer, kacang</p>
-                        <span class="cat-count">4+ Produk Ready</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- 3. FEATURED PRODUCTS GRID (Katalog 22+ Produk Sembako)         -->
-    <!-- ============================================================= -->
-    <section class="section-featured-products" id="katalog-produk">
-        <div class="site-container">
-            <div class="section-header-row">
-                <div>
-                    <span class="section-subtitle">KATALOG PILIHAN HARI INI</span>
-                    <h2 class="section-title">Produk Sembako Siap Diantar</h2>
-                </div>
-                
-                <!-- Quick Filter Tabs -->
-                <div class="product-filter-tabs">
-                    <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="filter-tab active">Semua (22)</a>
-                    <a href="<?php echo esc_url(home_url('/produk/?kategori=sembako')); ?>" class="filter-tab">Beras & Sembako</a>
-                    <a href="<?php echo esc_url(home_url('/produk/?kategori=minuman')); ?>" class="filter-tab">Minuman</a>
-                    <a href="<?php echo esc_url(home_url('/produk/?kategori=kebersihan')); ?>" class="filter-tab">Kebersihan</a>
-                    <a href="<?php echo esc_url(home_url('/produk/?kategori=snack')); ?>" class="filter-tab">Snack</a>
+                <div class="section-title-right">
+                    <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="link-see-all">
+                        <?php esc_html_e( 'Lihat Semua Produk', 'ukm-toko-theme' ); ?> &rarr;
+                    </a>
                 </div>
             </div>
 
-            <div class="modern-product-grid">
+            <!-- 6 Category Cards Grid -->
+            <div class="technova-categories-grid">
                 <?php
-                $args_products = array(
-                    'post_type'      => 'produk',
-                    'posts_per_page' => 12,
-                    'post_status'    => 'publish',
-                    'orderby'        => 'date',
-                    'order'          => 'DESC',
+                $category_items = array(
+                    array(
+                        'name'  => __( 'Sembako', 'ukm-toko-theme' ),
+                        'slug'  => 'sembako',
+                        'image' => file_exists( UKM_THEME_DIR . '/assets/images/products/201.jpg' ) ? UKM_THEME_URI . '/assets/images/products/201.jpg' : UKM_THEME_URI . '/assets/images/technova/prod-iphone15.jpg',
+                    ),
+                    array(
+                        'name'  => __( 'Minuman', 'ukm-toko-theme' ),
+                        'slug'  => 'minuman',
+                        'image' => file_exists( UKM_THEME_DIR . '/assets/images/products/211.jpg' ) ? UKM_THEME_URI . '/assets/images/products/211.jpg' : UKM_THEME_URI . '/assets/images/technova/cat-audio.jpg',
+                    ),
+                    array(
+                        'name'  => __( 'Kebersihan', 'ukm-toko-theme' ),
+                        'slug'  => 'kebersihan',
+                        'image' => file_exists( UKM_THEME_DIR . '/assets/images/products/215.jpg' ) ? UKM_THEME_URI . '/assets/images/products/215.jpg' : UKM_THEME_URI . '/assets/images/technova/prod-macbook.jpg',
+                    ),
+                    array(
+                        'name'  => __( 'Snack & Biskuit', 'ukm-toko-theme' ),
+                        'slug'  => 'snack',
+                        'image' => file_exists( UKM_THEME_DIR . '/assets/images/products/222.jpg' ) ? UKM_THEME_URI . '/assets/images/products/222.jpg' : UKM_THEME_URI . '/assets/images/technova/cat-gaming.jpg',
+                    ),
+                    array(
+                        'name'  => __( 'Minyak & Bumbu', 'ukm-toko-theme' ),
+                        'slug'  => 'sembako',
+                        'image' => file_exists( UKM_THEME_DIR . '/assets/images/products/205.jpg' ) ? UKM_THEME_URI . '/assets/images/products/205.jpg' : UKM_THEME_URI . '/assets/images/technova/prod-galaxywatch.jpg',
+                    ),
+                    array(
+                        'name'  => __( 'Kebutuhan Dapur', 'ukm-toko-theme' ),
+                        'slug'  => 'kebersihan',
+                        'image' => file_exists( UKM_THEME_DIR . '/assets/images/products/216.jpg' ) ? UKM_THEME_URI . '/assets/images/products/216.jpg' : UKM_THEME_URI . '/assets/images/technova/cat-accessoires.jpg',
+                    ),
                 );
-                $query_products = new WP_Query($args_products);
 
-                if ($query_products->have_posts()) :
-                    while ($query_products->have_posts()) : $query_products->the_post();
-                        get_template_part('template-parts/content', 'produk');
+                foreach ( $category_items as $cat ) :
+                    $term = get_term_by( 'slug', $cat['slug'], 'kategori-produk' );
+                    $cat_url = $term ? get_term_link( $term ) : home_url( '/kategori-produk/' . $cat['slug'] . '/' );
+                    $card_name = function_exists('ukm_get_term_display_name') ? ukm_get_term_display_name( $cat['name'], $cat['slug'] ) : $cat['name'];
+                ?>
+                <a href="<?php echo esc_url( $cat_url ); ?>" class="technova-cat-card">
+                    <div class="cat-card-thumb-box">
+                        <img src="<?php echo esc_url( $cat['image'] ); ?>"
+                             alt="<?php echo esc_attr( $card_name ); ?>"
+                             loading="lazy" />
+                    </div>
+                    <span class="cat-card-name"><?php echo esc_html( $card_name ); ?></span>
+                </a>
+                <?php endforeach; ?>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         3. BEST SELLERS / FEATURED PRODUCTS (Produk Terlaris)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="technova-bestsellers-section" id="bestsellers">
+        <div class="site-container">
+
+            <div class="section-title-row">
+                <div class="section-title-left">
+                    <span class="section-tag-sub"><?php esc_html_e( '— PRODUK PILIHAN', 'ukm-toko-theme' ); ?></span>
+                    <h2 class="section-main-heading"><?php esc_html_e( 'Produk Terlaris & Paling Dicari', 'ukm-toko-theme' ); ?></h2>
+                </div>
+                <div class="section-title-right">
+                    <div class="slider-nav-arrows">
+                        <button type="button" class="slider-btn-round" aria-label="<?php esc_attr_e( 'Sebelumnya', 'ukm-toko-theme' ); ?>">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                        </button>
+                        <button type="button" class="slider-btn-round" aria-label="<?php esc_attr_e( 'Berikutnya', 'ukm-toko-theme' ); ?>">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Products Grid -->
+            <div class="technova-products-grid">
+                <?php
+                $bestseller_query = new WP_Query( array(
+                    'post_type'      => 'produk',
+                    'posts_per_page' => 4,
+                    'post_status'    => 'publish',
+                ) );
+
+                if ( $bestseller_query->have_posts() ) :
+                    while ( $bestseller_query->have_posts() ) :
+                        $bestseller_query->the_post();
+                        get_template_part( 'template-parts/content', 'produk' );
                     endwhile;
                     wp_reset_postdata();
                 else :
-                    echo '<p class="empty-state-text">Belum ada produk untuk ditampilkan.</p>';
+                    echo '<p>' . esc_html__( 'Belum ada produk yang tersedia.', 'ukm-toko-theme' ) . '</p>';
                 endif;
                 ?>
             </div>
 
-            <div class="catalog-more-center">
-                <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="btn-view-catalog">
-                    <span>Lihat Seluruh 22+ Produk di Katalog Lengkap &rarr;</span>
-                </a>
-            </div>
         </div>
     </section>
 
-    <!-- ============================================================= -->
-    <!-- 4. MITRA WARUNG & KLIEN BINAAN (Social Proof / B2B)            -->
-    <!-- ============================================================= -->
-    <section class="section-mitra">
+    <!-- ═══════════════════════════════════════════════════════
+         4. SPECIAL OFFER PROMO BANNER (Penawaran Spesial)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="technova-promo-section">
         <div class="site-container">
-            <div class="section-header-row">
-                <div>
-                    <span class="section-subtitle">JARINGAN MITRA BINAAN</span>
-                    <h2 class="section-title">Dipercaya Puluhan Warung & Usaha Kuliner</h2>
-                </div>
-                <a href="<?php echo esc_url(home_url('/klien/')); ?>" class="view-all-link">Semua Mitra &rarr;</a>
-            </div>
+            <div class="technova-promo-card">
+                <div class="promo-card-grid">
 
-            <div class="mitra-cards-grid">
-                <?php
-                $args_clients = array(
-                    'post_type'      => 'klien',
-                    'posts_per_page' => 4,
-                    'post_status'    => 'publish',
-                );
-                $query_clients = new WP_Query($args_clients);
-
-                if ($query_clients->have_posts()) :
-                    while ($query_clients->have_posts()) : $query_clients->the_post();
-                        $nama_pic = get_post_meta(get_the_ID(), 'nama', true);
-                        $telepon  = get_post_meta(get_the_ID(), 'telepon', true);
-                        $lokasi   = get_post_meta(get_the_ID(), 'lokasi', true);
-                        $clean_tel= preg_replace('/[^0-9]/', '', $telepon);
-                ?>
-                    <div class="mitra-card">
-                        <div class="mitra-card-top">
-                            <div class="mitra-avatar-box">🏪</div>
-                            <div class="mitra-meta">
-                                <h3 class="mitra-title"><?php the_title(); ?></h3>
-                                <span class="mitra-badge-verified">✓ Mitra Terverifikasi</span>
-                            </div>
+                    <!-- Left: Promo Text -->
+                    <div class="promo-text-col">
+                        <div class="promo-pill-badge">
+                            <span><?php esc_html_e( 'Penawaran Spesial', 'ukm-toko-theme' ); ?></span>
                         </div>
-                        <p class="mitra-quote">
-                            "<?php echo esc_html(wp_trim_words(get_the_content(), 18)); ?>"
+
+                        <h2 class="promo-headline">
+                            <?php esc_html_e( 'Hemat Belanja Mingguan', 'ukm-toko-theme' ); ?><br>
+                            <span class="promo-sub-headline"><?php esc_html_e( 'Dapatkan Diskon Sembako & Paket Hemat', 'ukm-toko-theme' ); ?></span>
+                        </h2>
+
+                        <p class="promo-desc">
+                            <?php esc_html_e( 'Belanja kebutuhan pokok keluarga lebih hemat dengan paket sembako lengkap dan harga grosir termurah di toko kami!', 'ukm-toko-theme' ); ?>
                         </p>
-                        <div class="mitra-footer">
-                            <span class="mitra-location">📍 <?php echo esc_html($lokasi ?: 'Kota Bandung'); ?></span>
-                            <?php if ($clean_tel) : ?>
-                                <a href="https://wa.me/<?php echo esc_attr($clean_tel); ?>" target="_blank" rel="noopener noreferrer" class="mitra-contact-btn">
-                                    Hubungi WA &rarr;
-                                </a>
-                            <?php endif; ?>
+
+                        <div class="promo-cta-box">
+                            <a href="<?php echo esc_url( get_post_type_archive_link( 'produk' ) ); ?>" class="btn-promo-outline">
+                                <span><?php esc_html_e( 'Lihat Promo Sekarang', 'ukm-toko-theme' ); ?></span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                            </a>
                         </div>
                     </div>
-                <?php
-                    endwhile;
-                    wp_reset_postdata();
-                endif;
-                ?>
-            </div>
-        </div>
-    </section>
 
-    <!-- ============================================================= -->
-    <!-- 5. KEUNGGULAN TOKO BAHRI (Value Proposition)                  -->
-    <!-- ============================================================= -->
-    <section class="section-features">
-        <div class="site-container">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon-wrap icon-green">🚀</div>
-                    <h3>Pengiriman Cepat Same-Day</h3>
-                    <p>Pesan sebelum pukul 17:00 WIB, sembako langsung dikirim hari ini menggunakan armada toko sendiri.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon-wrap icon-amber">💰</div>
-                    <h3>Harga Grosir Terjangkau</h3>
-                    <p>Dapatkan harga hemat grosir langsung dari distributor resmi tanpa minimal pembelian partai besar.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon-wrap icon-blue">⚖️</div>
-                    <h3>Timbangan Pas & Kualitas Asli</h3>
-                    <p>Garansi timbangan digital akurat dan produk terdaftar BPOM / P-IRT resmi serta bersertifikasi Halal.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon-wrap icon-purple">💳</div>
-                    <h3>Pembayaran Fleksibel</h3>
-                    <p>Mendukung metode bayar tunai (COD), QRIS instan, maupun transfer bank tanpa biaya tambahan.</p>
+                    <!-- Right: Promo Image -->
+                    <div class="promo-image-col">
+                        <img src="<?php echo esc_url( UKM_THEME_URI . '/assets/images/technova/promo-banner.jpg' ); ?>"
+                             alt="<?php esc_attr_e( 'Promo Hemat Sembako', 'ukm-toko-theme' ); ?>"
+                             class="promo-banner-img"
+                             loading="lazy" />
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ============================================================= -->
-    <!-- 6. BLOG TIPS & BERITA TERKINI                                 -->
-    <!-- ============================================================= -->
-    <section class="section-blog">
+    <!-- ═══════════════════════════════════════════════════════
+         5. VALUE PROPOSITION BAR (4 Keunggulan Toko)
+         ═══════════════════════════════════════════════════════ -->
+    <section class="technova-value-props-section">
         <div class="site-container">
-            <div class="section-header-row">
-                <div>
-                    <span class="section-subtitle">EDUKASI & ARTIKEL</span>
-                    <h2 class="section-title">Tips Dapur, Belanja & Usaha Warung</h2>
-                </div>
-                <a href="<?php echo esc_url(home_url('/blog/')); ?>" class="view-all-link">Lihat Semua Artikel &rarr;</a>
-            </div>
+            <div class="technova-values-grid">
 
-            <div class="blog-cards-grid">
-                <?php
-                $args_blog = array(
-                    'post_type'      => 'post',
-                    'posts_per_page' => 3,
-                    'post_status'    => 'publish',
-                );
-                $query_blog = new WP_Query($args_blog);
-
-                if ($query_blog->have_posts()) :
-                    while ($query_blog->have_posts()) : $query_blog->the_post();
-                ?>
-                    <article class="modern-blog-card">
-                        <div class="blog-card-meta">
-                            <span class="blog-cat-badge">
-                                <?php
-                                $categories = get_the_category();
-                                echo !empty($categories) ? esc_html($categories[0]->name) : 'Tips Belanja';
-                                ?>
-                            </span>
-                            <span class="blog-date">📅 <?php echo get_the_date('j M Y'); ?></span>
-                        </div>
-                        <h3 class="blog-card-title">
-                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                        </h3>
-                        <p class="blog-card-excerpt">
-                            <?php echo wp_trim_words(get_the_excerpt(), 18); ?>
-                        </p>
-                        <a href="<?php the_permalink(); ?>" class="blog-read-more">Baca Selengkapnya &rarr;</a>
-                    </article>
-                <?php
-                    endwhile;
-                    wp_reset_postdata();
-                endif;
-                ?>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- 7. CALL TO ACTION BANNER                                      -->
-    <!-- ============================================================= -->
-    <section class="section-cta-banner">
-        <div class="site-container">
-            <div class="cta-banner-box">
-                <div class="cta-content">
-                    <span class="cta-tag">PASOKAN SEMBAKO RUTIN</span>
-                    <h2>Butuh Pasokan Sembako Cepat untuk Warung atau Keluarga?</h2>
-                    <p>Konsultasikan kebutuhan beras karungan, dus minyak, atau sabun grosir langsung dengan admin Toko Bahri via WhatsApp.</p>
+                <div class="value-item">
+                    <div class="value-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <polyline points="9 11 12 14 22 4"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <h4><?php esc_html_e( '100% Produk Asli', 'ukm-toko-theme' ); ?></h4>
+                        <p><?php esc_html_e( 'Kualitas terjamin & baru', 'ukm-toko-theme' ); ?></p>
+                    </div>
                 </div>
-                <div class="cta-btn-wrap">
-                    <a href="<?php echo esc_url($wa_url); ?>" target="_blank" rel="noopener noreferrer" class="btn-cta-large">
-                        <span>💬 Chat WhatsApp Sekarang</span>
-                    </a>
+
+                <div class="value-item">
+                    <div class="value-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.2">
+                            <rect x="1" y="3" width="15" height="13" rx="1"/>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 8"/>
+                            <circle cx="5.5" cy="18.5" r="2.5"/>
+                            <circle cx="18.5" cy="18.5" r="2.5"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <h4><?php esc_html_e( 'Pengiriman Cepat', 'ukm-toko-theme' ); ?></h4>
+                        <p><?php esc_html_e( 'Bisa antar langsung ke rumah', 'ukm-toko-theme' ); ?></p>
+                    </div>
                 </div>
+
+                <div class="value-item">
+                    <div class="value-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <h4><?php esc_html_e( 'Pembayaran Mudah', 'ukm-toko-theme' ); ?></h4>
+                        <p><?php esc_html_e( 'Bisa COD & Transfer Bank', 'ukm-toko-theme' ); ?></p>
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="value-icon-circle">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.2">
+                            <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                        </svg>
+                    </div>
+                    <div class="value-text">
+                        <h4><?php esc_html_e( 'Layanan Ramah', 'ukm-toko-theme' ); ?></h4>
+                        <p><?php esc_html_e( 'Siap melayani pesanan Anda', 'ukm-toko-theme' ); ?></p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>

@@ -18,7 +18,7 @@ function ukm_toko_customize_register($wp_customize) {
     // -------------------------------------------------------------
     // Primary Color
     $wp_customize->add_setting('ukm_color_primary', array(
-        'default'           => '#09090b',
+        'default'           => '#000000',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ));
@@ -29,7 +29,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Secondary Color
     $wp_customize->add_setting('ukm_color_secondary', array(
-        'default'           => '#10b981',
+        'default'           => '#52525b',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ));
@@ -40,7 +40,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Background Color
     $wp_customize->add_setting('ukm_color_background', array(
-        'default'           => '#f8fafc',
+        'default'           => '#ffffff',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ));
@@ -51,7 +51,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Text Color
     $wp_customize->add_setting('ukm_color_text', array(
-        'default'           => '#1e293b',
+        'default'           => '#09090b',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ));
@@ -62,7 +62,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Link Color
     $wp_customize->add_setting('ukm_color_link', array(
-        'default'           => '#059669',
+        'default'           => '#000000',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ));
@@ -140,7 +140,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Store Name in Header
     $wp_customize->add_setting('ukm_store_brand_name', array(
-        'default'           => 'TOKO BAHRI',
+        'default'           => 'Toko Berkah',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ));
@@ -152,7 +152,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Store Tagline in Header
     $wp_customize->add_setting('ukm_store_brand_tagline', array(
-        'default'           => 'SEMBAKO & RETAIL',
+        'default'           => 'Sembako & Kebutuhan Harian',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ));
@@ -201,7 +201,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Footer Copyright Text
     $wp_customize->add_setting('ukm_footer_text', array(
-        'default'           => '© ' . date('Y') . ' Toko UKM Sembako Bahri. Seluruh hak cipta dilindungi.',
+        'default'           => 'Â© ' . date('Y') . ' Toko UKM Sembako Bahri. Seluruh hak cipta dilindungi.',
         'sanitize_callback' => 'sanitize_text_field',
         'transport'         => 'refresh',
     ));
@@ -213,7 +213,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Store Physical Address
     $wp_customize->add_setting('ukm_store_address', array(
-        'default'           => 'Jl. Merdeka No. 45, Sentra UKM Kota Bandung',
+        'default'           => 'Jl. Merdeka No. 45, Kota Bandung, Jawa Barat',
         'sanitize_callback' => 'sanitize_textarea_field',
         'transport'         => 'refresh',
     ));
@@ -225,7 +225,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Facebook
     $wp_customize->add_setting('ukm_social_facebook', array(
-        'default'           => 'https://facebook.com/tokobahri',
+        'default'           => 'https://facebook.com/toko-berkah',
         'sanitize_callback' => 'esc_url_raw',
         'transport'         => 'refresh',
     ));
@@ -237,7 +237,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // Instagram
     $wp_customize->add_setting('ukm_social_instagram', array(
-        'default'           => 'https://instagram.com/tokobahri',
+        'default'           => 'https://instagram.com/toko-berkah',
         'sanitize_callback' => 'esc_url_raw',
         'transport'         => 'refresh',
     ));
@@ -249,7 +249,7 @@ function ukm_toko_customize_register($wp_customize) {
 
     // TikTok
     $wp_customize->add_setting('ukm_social_tiktok', array(
-        'default'           => 'https://tiktok.com/@tokobahri',
+        'default'           => 'https://tiktok.com/@toko-berkah',
         'sanitize_callback' => 'esc_url_raw',
         'transport'         => 'refresh',
     ));
@@ -258,6 +258,29 @@ function ukm_toko_customize_register($wp_customize) {
         'section'  => 'ukm_footer_section',
         'type'     => 'url',
     ));
+    // Store Email
+    $wp_customize->add_setting('ukm_store_email', array(
+        'default'           => 'toko.berkah@gmail.com',
+        'sanitize_callback' => 'sanitize_email',
+        'transport'         => 'refresh',
+    ));
+    $wp_customize->add_control('ukm_store_email', array(
+        'label'    => __('Email Toko', 'ukm-toko-theme'),
+        'section'  => 'ukm_footer_section',
+        'type'     => 'email',
+    ));
+
+    // Store Phone (secondary display)
+    $wp_customize->add_setting('ukm_store_phone', array(
+        'default'           => '0812-3456-7890',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ));
+    $wp_customize->add_control('ukm_store_phone', array(
+        'label'    => __('Nomor Telepon Toko (Tampilan)', 'ukm-toko-theme'),
+        'section'  => 'ukm_footer_section',
+        'type'     => 'text',
+    ));
 }
 add_action('customize_register', 'ukm_toko_customize_register');
 
@@ -265,11 +288,11 @@ add_action('customize_register', 'ukm_toko_customize_register');
  * Output Dynamic CSS from Customizer in <head>
  */
 function ukm_toko_customizer_dynamic_css() {
-    $primary    = get_theme_mod('ukm_color_primary', '#09090b');
-    $secondary  = get_theme_mod('ukm_color_secondary', '#10b981');
-    $background = get_theme_mod('ukm_color_background', '#f8fafc');
-    $text       = get_theme_mod('ukm_color_text', '#1e293b');
-    $link       = get_theme_mod('ukm_color_link', '#059669');
+    $primary    = get_theme_mod('ukm_color_primary', '#000000');
+    $secondary  = get_theme_mod('ukm_color_secondary', '#52525b');
+    $background = get_theme_mod('ukm_color_background', '#ffffff');
+    $text       = get_theme_mod('ukm_color_text', '#09090b');
+    $link       = get_theme_mod('ukm_color_link', '#000000');
     $heading_f  = get_theme_mod('ukm_font_heading', 'Plus Jakarta Sans');
     $body_f     = get_theme_mod('ukm_font_body', 'Plus Jakarta Sans');
     $font_size  = get_theme_mod('ukm_font_size_base', 16);
@@ -291,3 +314,4 @@ function ukm_toko_customizer_dynamic_css() {
     echo "</style>\n";
 }
 add_action('wp_head', 'ukm_toko_customizer_dynamic_css', 15);
+

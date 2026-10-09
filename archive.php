@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying archive pages (Blog & General Archives)
+ * General Archive Template — Toko Berkah (Posts/Blog)
  *
  * @package UKM_Toko_Theme
  */
@@ -8,47 +8,60 @@
 get_header();
 ?>
 
-<main id="primary-content" class="ukm-main-site-content">
-    <div class="ukm-container" style="max-width:1200px; margin:30px auto; padding:0 20px;">
-        <?php if (function_exists('ukm_toko_breadcrumbs')) ukm_toko_breadcrumbs(); ?>
+<main id="primary-content" class="archive-main">
 
-        <header class="ukm-archive-header" style="margin-bottom:30px; border-bottom:1px solid #e2e8f0; padding-bottom:16px;">
+    <div class="archive-page-header">
+        <div class="site-container">
+            <?php if ( function_exists( 'ukm_toko_breadcrumbs' ) ) ukm_toko_breadcrumbs(); ?>
+            <h1 class="archive-page-title">
+                <?php
+                if ( is_category() ) {
+                    echo esc_html( single_cat_title( '', false ) );
+                } elseif ( is_tag() ) {
+                    printf( esc_html__( 'Tag: %s', 'ukm-toko-theme' ), single_tag_title( '', false ) );
+                } elseif ( is_author() ) {
+                    printf( esc_html__( 'Artikel oleh: %s', 'ukm-toko-theme' ), get_the_author() );
+                } elseif ( is_date() ) {
+                    echo esc_html( get_the_date( 'F Y' ) );
+                } else {
+                    esc_html_e( 'Arsip Blog', 'ukm-toko-theme' );
+                }
+                ?>
+            </h1>
             <?php
-            the_archive_title('<h1 class="ukm-page-title" style="font-size:2rem; font-weight:800; color:#0f172a;">', '</h1>');
-            the_archive_description('<div class="ukm-archive-description" style="color:#64748b; margin-top:8px;">', '</div>');
+            $archive_desc = get_the_archive_description();
+            if ( $archive_desc ) :
             ?>
-        </header>
-
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:30px;">
-            <div class="ukm-posts-stream">
-                <?php if (have_posts()) : ?>
-                    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:24px;">
-                        <?php
-                        while (have_posts()) : the_post();
-                            get_template_part('template-parts/content', get_post_type());
-                        endwhile;
-                        ?>
-                    </div>
-
-                    <div class="ukm-pagination" style="margin-top:30px;">
-                        <?php
-                        the_posts_pagination(array(
-                            'mid_size'  => 2,
-                            'prev_text' => __('&laquo; Sebelumnya', 'ukm-toko-theme'),
-                            'next_text' => __('Selanjutnya &raquo;', 'ukm-toko-theme'),
-                        ));
-                        ?>
-                    </div>
-                <?php else : ?>
-                    <?php get_template_part('template-parts/content', 'none'); ?>
-                <?php endif; ?>
-            </div>
-
-            <div class="ukm-sidebar-column">
-                <?php get_sidebar(); ?>
-            </div>
+            <p class="archive-page-desc"><?php echo wp_kses_post( $archive_desc ); ?></p>
+            <?php endif; ?>
         </div>
     </div>
+
+    <div class="site-container">
+        <?php if ( have_posts() ) : ?>
+            <div class="archive-posts-grid">
+                <?php
+                while ( have_posts() ) : the_post();
+                    get_template_part( 'template-parts/content' );
+                endwhile;
+                ?>
+            </div>
+
+            <nav class="pagination" aria-label="<?php esc_attr_e( 'Navigasi halaman blog', 'ukm-toko-theme' ); ?>">
+                <?php
+                the_posts_pagination( array(
+                    'mid_size'  => 2,
+                    'prev_text' => '&laquo; ' . esc_html__( 'Sebelumnya', 'ukm-toko-theme' ),
+                    'next_text' => esc_html__( 'Berikutnya', 'ukm-toko-theme' ) . ' &raquo;',
+                ) );
+                ?>
+            </nav>
+
+        <?php else : ?>
+            <?php get_template_part( 'template-parts/content', 'none' ); ?>
+        <?php endif; ?>
+    </div>
+
 </main>
 
 <?php

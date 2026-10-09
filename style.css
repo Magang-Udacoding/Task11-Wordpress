@@ -1,69 +1,106 @@
 /*
 Theme Name: UKM Toko Theme
-Theme URI: https://ukm-toko.nandohosting.com/
-Author: Antigravity & Udacoding Team
+Theme URI: https://github.com/udacoding/ukm-toko-theme
+Author: Udacoding Team
 Author URI: https://udacoding.com/
-Description: Custom, high-performance, and fully responsive WordPress theme tailored for Indonesian MSME (UKM Toko Sembako & Retail). Built with Underscores (_s) starter principles, featuring native Custom Post Types (Produk & Klien), ACF Pro specs & variant repeaters, custom Gutenberg blocks, WooCommerce support, technical SEO schema markup, and 95+ PageSpeed optimizations.
-Version: 1.0.0
+Description: Custom production-ready WordPress theme for Indonesian MSME (Toko Sembako & Retail). Features: Custom Post Types (Produk & Klien), Custom Taxonomy (kategori-produk), ACF integration, 3 custom Gutenberg blocks, WooCommerce support, WordPress Customizer, JSON-LD Schema SEO, 95+ Lighthouse performance. Designed for Toko Berkah — clean, modern, responsive.
+Version: 1.1.0
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: ukm-toko-theme
-Tags: e-commerce, custom-post-types, block-patterns, full-width-template, grid-layout, custom-colors, custom-menu, featured-images, translation-ready
+Tags: e-commerce, custom-post-types, woocommerce, block-patterns, full-width-template, grid-layout, custom-colors, custom-menu, featured-images, translation-ready, rtl-language-support
 */
 
+/* =========================================================================
+   CSS Custom Properties (Design Tokens)
+   ========================================================================= */
 :root {
-  --ukm-primary: #10b981;
-  --ukm-primary-dark: #059669;
-  --ukm-primary-light: #d1fae5;
-  --ukm-accent: #f59e0b;
-  --ukm-accent-dark: #d97706;
-  --ukm-danger: #ef4444;
-  --ukm-dark: #0f172a;
-  --ukm-gray-800: #1e293b;
-  --ukm-gray-600: #475569;
-  --ukm-gray-400: #94a3b8;
-  --ukm-gray-200: #e2e8f0;
-  --ukm-gray-100: #f1f5f9;
-  --ukm-gray-50: #f8fafc;
-  --ukm-white: #ffffff;
-  --ukm-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --ukm-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --ukm-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --ukm-radius-sm: 6px;
-  --ukm-radius: 12px;
-  --ukm-radius-lg: 18px;
-  --ukm-radius-full: 9999px;
-  --ukm-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --ukm-container-max: 1240px;
-  --ukm-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Brand Palette — Hitam Putih / Monochrome */
+  --primary:        #000000;
+  --primary-dark:   #18181b;
+  --primary-deep:   #09090b;
+  --primary-light:  #f4f4f5;
+  --primary-border: #e4e4e7;
+  --primary-glow:   rgba(0, 0, 0, 0.12);
+
+  /* Accent — Graphite & Silver */
+  --accent:         #27272a;
+  --accent-dark:    #18181b;
+  --accent-light:   #f4f4f5;
+
+  /* Neutral / Monochrome Shades */
+  --dark:           #09090b;
+  --dark-surface:   #18181b;
+  --slate-700:      #3f3f46;
+  --slate-600:      #52525b;
+  --slate-500:      #71717a;
+  --slate-400:      #a1a1aa;
+  --slate-300:      #d4d4d8;
+  --slate-200:      #e4e4e7;
+  --slate-100:      #f4f4f5;
+  --slate-50:       #fafafa;
+  --white:          #ffffff;
+
+  /* Feedback Monochrome */
+  --danger:         #18181b;
+  --danger-light:   #f4f4f5;
+  --success:        #09090b;
+  --success-light:  #f4f4f5;
+  --wa-color:       #18181b;
+
+  /* Typography */
+  --font-main:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-size-base: 16px;
+  --line-height:  1.6;
+
+  /* Radii */
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:    0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md:    0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg:    0 12px 28px rgba(15, 23, 42, 0.10);
+  --shadow-green: 0 4px 18px rgba(5, 150, 105, 0.20);
+
+  /* Transitions */
+  --transition:      all 0.22s ease;
+  --transition-slow: all 0.38s ease;
+
+  /* Layout */
+  --container-max: 1220px;
+  --section-py-desktop: 72px;
+  --section-py-mobile:  48px;
 }
 
-/* Base Styles */
+/* =========================================================================
+   Global Reset
+   ========================================================================= */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  font-family: var(--ukm-font-sans);
-  background-color: var(--ukm-gray-50);
-  color: var(--ukm-gray-800);
-  line-height: 1.6;
+  font-family: var(--font-main);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  color: var(--slate-700);
+  background-color: var(--slate-50);
   -webkit-font-smoothing: antialiased;
-}
-
-a {
-  color: var(--ukm-primary-dark);
-  text-decoration: none;
-  transition: var(--ukm-transition);
-}
-
-a:hover {
-  color: var(--ukm-primary);
+  overflow-x: hidden;
 }
 
 img {
@@ -72,101 +109,99 @@ img {
   display: block;
 }
 
-.ukm-container {
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* =========================================================================
+   Container
+   ========================================================================= */
+.site-container {
   width: 100%;
-  max-width: var(--ukm-container-max);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 20px;
 }
 
-.ukm-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 4px 10px;
-  border-radius: var(--ukm-radius-full);
+@media (min-width: 768px) {
+  .site-container { padding-inline: 32px; }
+}
+@media (min-width: 1024px) {
+  .site-container { padding-inline: 40px; }
 }
 
-.ukm-badge-primary {
-  background: var(--ukm-primary-light);
-  color: var(--ukm-primary-dark);
-}
-
-.ukm-badge-accent {
-  background: #fef3c7;
-  color: var(--ukm-accent-dark);
-}
-
-.ukm-badge-success {
-  background: #dcfce7;
-  color: #15803d;
-}
-
+/* =========================================================================
+   Buttons
+   ========================================================================= */
 .ukm-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-family: var(--font-main);
   font-weight: 600;
   font-size: 0.95rem;
-  padding: 10px 22px;
-  border-radius: var(--ukm-radius-sm);
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
   cursor: pointer;
-  border: 1px solid transparent;
-  transition: var(--ukm-transition);
+  transition: var(--transition);
   text-decoration: none;
+  white-space: nowrap;
+  min-height: 44px; /* Touch-friendly */
 }
 
 .ukm-btn-primary {
-  background: var(--ukm-primary);
-  color: var(--ukm-white);
-  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.35);
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-green);
 }
-
 .ukm-btn-primary:hover {
-  background: var(--ukm-primary-dark);
-  color: var(--ukm-white);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.45);
-}
-
-.ukm-btn-accent {
-  background: var(--ukm-accent);
-  color: var(--ukm-white);
-}
-
-.ukm-btn-accent:hover {
-  background: var(--ukm-accent-dark);
-  color: var(--ukm-white);
-  transform: translateY(-2px);
+  background: var(--primary-dark);
+  color: var(--white);
+  transform: translateY(-1px);
 }
 
 .ukm-btn-outline {
-  border-color: var(--ukm-gray-200);
-  background: var(--ukm-white);
-  color: var(--ukm-gray-800);
+  background: var(--white);
+  color: var(--slate-700);
+  border-color: var(--slate-200);
 }
-
 .ukm-btn-outline:hover {
-  border-color: var(--ukm-primary);
-  color: var(--ukm-primary-dark);
-  background: var(--ukm-primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .ukm-btn-wa {
-  background: #25d366;
-  color: var(--ukm-white);
-  box-shadow: 0 4px 14px 0 rgba(37, 211, 102, 0.35);
+  background: var(--wa-color);
+  color: var(--white);
+}
+.ukm-btn-wa:hover {
+  background: #1cb954;
+  color: var(--white);
+  transform: translateY(-1px);
 }
 
-.ukm-btn-wa:hover {
-  background: #1eb954;
-  color: var(--ukm-white);
-  transform: translateY(-2px);
+/* =========================================================================
+   Badges / Pills
+   ========================================================================= */
+.ukm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
 }
+.ukm-badge-green  { background: var(--primary-light); color: var(--primary-dark); }
+.ukm-badge-amber  { background: var(--accent-light); color: var(--accent-dark); }
+.ukm-badge-danger { background: var(--danger-light); color: var(--danger); }

@@ -48,6 +48,9 @@ function ukm_toko_seo_meta_tags() {
     echo '<meta name="twitter:title" content="' . esc_attr($title) . '" />' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr($desc) . '" />' . "\n";
     
+    // Canonical URL
+    echo '<link rel="canonical" href="' . esc_url($url) . '" />' . "\n";
+    
     // Item 44: hreflang multilingual ready
     $locale = get_locale();
     echo '<link rel="alternate" href="' . esc_url($url) . '" hreflang="' . esc_attr(substr($locale, 0, 2)) . '" />' . "\n";
@@ -127,6 +130,7 @@ add_action('wp_head', 'ukm_toko_schema_jsonld', 6);
 /**
  * 3. Breadcrumb NavXT & Accessible Native Fallback
  */
+if ( ! function_exists( 'ukm_toko_breadcrumbs' ) ) :
 function ukm_toko_breadcrumbs() {
     if (is_front_page()) return;
 
@@ -162,3 +166,78 @@ function ukm_toko_breadcrumbs() {
 
     echo '</div></nav>';
 }
+endif;
+
+/**
+ * 4. Breadcrumb Schema JSON-LD
+ */
+function ukm_toko_breadcrumb_schema_jsonld() {
+    if (is_front_page()) return;
+
+    $items = array();
+    $items[] = array(
+        '@type'    => 'ListItem',
+        'position' => 1,
+        'name'     => 'Beranda',
+        'item'     => home_url('/'),
+    );
+
+    $pos = 2;
+    if (is_singular('produk')) {
+        $items[] = array(
+            '@type'    => 'ListItem',
+            'position' => $pos++,
+            'name'     => 'Katalog Produk',
+            'item'     => get_post_type_archive_link('produk'),
+        );
+        $items[] = array(
+            '@type'    => 'ListItem',
+            'position' => $pos++,
+            'name'     => get_the_title(),
+            'item'     => get_permalink(),
+        );
+    } elseif (is_post_type_archive('produk')) {
+        $items[] = array(
+            '@type'    => 'ListItem',
+            'position' => $pos++,
+            'name'     => 'Katalog Produk',
+            'item'     => get_post_type_archive_link('produk'),
+        );
+    } elseif (is_singular()) {
+        $items[] = array(
+            '@type'    => 'ListItem',
+            'position' => $pos++,
+            'name'     => get_the_title(),
+            'item'     => get_permalink(),
+        );
+    }
+
+    if (count($items) > 1) {
+        $schema = array(
+            '@context'        => 'https://schema.org',
+            '@type'           => 'BreadcrumbList',
+            'itemListElement' => $items,
+        );
+        echo "\n<script type=\"application/ld+json\">\n";
+        echo wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        echo "\n</script>\n";
+    }
+}
+add_action('wp_head', 'ukm_toko_breadcrumb_schema_jsonld', 7);
+
+/**
+ * 5. Ensure CPTs and Taxonomies are Included in WordPress Native XML Sitemap
+ */
+function ukm_toko_sitemap_post_types($post_types) {
+    $post_types['produk'] = get_post_type_object('produk');
+    $post_types['klien']  = get_post_type_object('klien');
+    return $post_types;
+}
+add_filter('wp_sitemaps_post_types', 'ukm_toko_sitemap_post_types');
+
+function ukm_toko_sitemap_taxonomies($taxonomies) {
+    $taxonomies['kategori-produk'] = get_taxonomy('kategori-produk');
+    return $taxonomies;
+}
+add_filter('wp_sitemaps_taxonomies', 'ukm_toko_sitemap_taxonomies');
+

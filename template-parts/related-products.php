@@ -35,13 +35,16 @@ if (!empty($term_ids)) {
 $related_query = new WP_Query($related_args);
 ?>
 
-<div class="ukm-related-products-section" style="margin-top:50px; border-top:2px solid #e2e8f0; padding-top:36px;">
-    <div class="ukm-section-header" style="margin-bottom:24px;">
-        <span class="ukm-section-sub" style="font-size:12px; font-weight:700; color:#059669; text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">REKOMENDASI KATEGORI SERUPA</span>
-        <h2 class="ukm-section-title" style="font-size:1.6rem; font-weight:800; color:#0f172a; margin:0;">Produk Terkait yang Mungkin Anda Butuhkan</h2>
+<div class="single-related-section">
+    <div class="section-header-row">
+        <div>
+            <span class="section-subtitle">REKOMENDASI KATEGORI SERUPA</span>
+            <h2 class="section-title">Produk Terkait yang Mungkin Anda Butuhkan</h2>
+        </div>
+        <a href="<?php echo esc_url(home_url('/produk/')); ?>" class="view-all-link">Lihat Semua Produk &rarr;</a>
     </div>
 
-    <div class="ukm-product-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:18px;">
+    <div class="modern-product-grid">
         <?php
         if ($related_query->have_posts()) :
             while ($related_query->have_posts()) : $related_query->the_post();
@@ -49,8 +52,9 @@ $related_query = new WP_Query($related_args);
             endwhile;
             wp_reset_postdata();
         else :
-            echo '<p style="color:#64748b; font-size:0.95rem;">Belum ada produk terkait dalam kategori ini.</p>';
+            echo '<p class="empty-state-text">Belum ada produk terkait lainnya dalam kategori ini.</p>';
         endif;
         ?>
     </div>
 </div>
+

@@ -42,23 +42,58 @@ add_filter('woocommerce_currency_symbol', function($currency_symbol, $currency) 
 }, 10, 2);
 
 /**
- * 3. Custom Cart Widget & AJAX Fragment Update for Floating Header Cart
+ * 3. Custom Cart Widget & AJAX Fragment Update for Header Cart
  */
 function ukm_toko_cart_link_fragment($fragments) {
     if (!function_exists('WC')) return $fragments;
     
+    $count = WC()->cart->get_cart_contents_count();
+    $total = WC()->cart->get_cart_total();
+    
+    $fragments['#header-cart-count'] = '<span class="cart-badge-count" id="header-cart-count">' . esc_html($count) . '</span>';
+    
     ob_start();
     ?>
-    <a class="ukm-header-cart-link" href="<?php echo esc_url(wc_get_cart_url()); ?>" title="<?php esc_attr_e('Lihat Keranjang Belanja', 'ukm-toko'); ?>">
+    <a class="ukm-header-cart-link" href="<?php echo esc_url(wc_get_cart_url()); ?>" title="<?php esc_attr_e('Lihat Keranjang Belanja', 'ukm-toko-theme'); ?>">
         <span class="cart-icon">🛒</span>
-        <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
-        <span class="cart-total"><?php echo WC()->cart->get_cart_total(); ?></span>
+        <span class="cart-count"><?php echo esc_html($count); ?></span>
+        <span class="cart-total"><?php echo $total; ?></span>
     </a>
     <?php
     $fragments['a.ukm-header-cart-link'] = ob_get_clean();
     return $fragments;
 }
 add_filter('woocommerce_add_to_cart_fragments', 'ukm_toko_cart_link_fragment');
+
+/**
+ * 3b. Handle AJAX Add to Cart (both CPT produk and WC products)
+ */
+function ukm_ajax_add_to_cart_handler() {
+    $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+    $quantity   = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
+
+    if (!$product_id) {
+        wp_send_json_error(array('message' => __('ID produk tidak valid', 'ukm-toko-theme')));
+    }
+
+    if (function_exists('WC')) {
+        $added = WC()->cart->add_to_cart($product_id, $quantity);
+        $count = WC()->cart->get_cart_contents_count();
+        $total = WC()->cart->get_cart_total();
+        wp_send_json_success(array(
+            'cart_count' => $count,
+            'cart_total' => $total,
+            'message'    => __('Produk berhasil ditambahkan ke keranjang!', 'ukm-toko-theme')
+        ));
+    } else {
+        wp_send_json_success(array(
+            'cart_count' => 1,
+            'message'    => __('Produk ditambahkan ke keranjang lokal.', 'ukm-toko-theme')
+        ));
+    }
+}
+add_action('wp_ajax_ukm_add_to_cart', 'ukm_ajax_add_to_cart_handler');
+add_action('wp_ajax_nopriv_ukm_add_to_cart', 'ukm_ajax_add_to_cart_handler');
 
 /**
  * 4. Custom Checkout Fields (RT/RW & Patokan Lokasi Rumah untuk Pengiriman UKM)
@@ -126,3 +161,4 @@ add_action('woocommerce_save_account_details', function($user_id) {
         update_user_meta($user_id, 'ukm_wa_pelanggan', sanitize_text_field($_POST['ukm_wa_pelanggan']));
     }
 });
+

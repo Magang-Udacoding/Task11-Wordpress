@@ -54,3 +54,22 @@ function ukm_toko_remove_wp_version_strings($src) {
 }
 add_filter('script_loader_src', 'ukm_toko_remove_wp_version_strings');
 add_filter('style_loader_src', 'ukm_toko_remove_wp_version_strings');
+
+/**
+ * 5. Obscure Login Errors (Prevent username enumeration during brute-force)
+ */
+add_filter('login_errors', function() {
+    return __('Login gagal: Kombinasi username atau kata sandi tidak cocok.', 'ukm-toko-theme');
+});
+
+/**
+ * 6. Disable Author Scans (?author=1 redirect)
+ */
+function ukm_toko_block_author_scans() {
+    if (!is_admin() && isset($_REQUEST['author'])) {
+        wp_redirect(home_url(), 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'ukm_toko_block_author_scans');
+

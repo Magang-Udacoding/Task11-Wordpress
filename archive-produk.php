@@ -22,7 +22,7 @@ $wa_clean    = preg_replace('/[^0-9]/', '', $wa_number);
         <!-- Catalog Header Banner -->
         <header class="catalog-header-banner">
             <div class="catalog-header-text">
-                <span class="catalog-badge">KATALOG RESMI TOKO BAHRI</span>
+                <span class="catalog-badge">KATALOG RESMI Toko Bahri</span>
                 <h1 class="catalog-main-heading">
                     <?php
                     if (is_tax('kategori-produk')) {
@@ -33,7 +33,7 @@ $wa_clean    = preg_replace('/[^0-9]/', '', $wa_number);
                     ?>
                 </h1>
                 <p class="catalog-subtitle">
-                    Pilihan terlengkap beras pulen, minyak goreng kemasan, gula, bumbu dapur, dan sabun dengan harga grosir langsung dari gudang.
+                    Pilihan terlengkap beras pulen, minyak goreng kemasan, gula, bumbu dapur, dan sabun dengan harga grosir langsung dari toko kami.
                 </p>
             </div>
         </header>
@@ -42,26 +42,20 @@ $wa_clean    = preg_replace('/[^0-9]/', '', $wa_number);
         <div class="catalog-filter-bar">
             <div class="category-pills-scroll">
                 <a href="<?php echo esc_url(get_post_type_archive_link('produk')); ?>" class="cat-pill <?php echo !is_tax('kategori-produk') ? 'active' : ''; ?>">
-                    <span>📦 Semua Produk (22)</span>
+                    <span>Semua Produk</span>
                 </a>
                 <?php
                 $cats = get_terms(array(
                     'taxonomy'   => 'kategori-produk',
                     'hide_empty' => false,
                 ));
-                $icons = array(
-                    'sembako'   => '🌾',
-                    'minuman'   => '🧃',
-                    'kebersihan'=> '🧼',
-                    'snack'     => '🍪',
-                );
                 if (!empty($cats) && !is_wp_error($cats)) :
                     foreach ($cats as $cat) :
                         $is_active = is_tax('kategori-produk', $cat->term_id) ? 'active' : '';
-                        $ico = isset($icons[$cat->slug]) ? $icons[$cat->slug] : '🏷️';
+                        $cat_display_name = function_exists('ukm_get_term_display_name') ? ukm_get_term_display_name($cat->name, $cat->slug) : $cat->name;
                 ?>
                     <a href="<?php echo esc_url(get_term_link($cat)); ?>" class="cat-pill <?php echo esc_attr($is_active); ?>">
-                        <span><?php echo $ico; ?> <?php echo esc_html($cat->name); ?> (<?php echo esc_html($cat->count); ?>)</span>
+                        <span><?php echo esc_html($cat_display_name); ?> (<?php echo esc_html($cat->count); ?>)</span>
                     </a>
                 <?php
                     endforeach;
@@ -70,7 +64,7 @@ $wa_clean    = preg_replace('/[^0-9]/', '', $wa_number);
             </div>
 
             <div class="catalog-filter-meta">
-                <span class="catalog-count-info">Menampilkan <strong><?php echo (int)$wp_query->found_posts; ?></strong> item pilihan</span>
+                <span class="catalog-count-info">Menampilkan <strong><?php echo (int)$wp_query->found_posts; ?></strong> produk pilihan</span>
             </div>
         </div>
 
@@ -101,10 +95,14 @@ $wa_clean    = preg_replace('/[^0-9]/', '', $wa_number);
         <!-- Bottom Assistance Box -->
         <div class="catalog-help-box">
             <div class="help-box-content">
-                <div class="help-icon">💬</div>
+                <div class="help-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
                 <div>
                     <h3>Tidak Menemukan Merk / Barang yang Anda Cari?</h3>
-                    <p>Toko Bahri menyediakan ratusan barang sembako grosir lainnya di gudang fisik. Tanyakan langsung ke admin WhatsApp!</p>
+                    <p>Toko Bahri menyediakan ratusan produk sembako dan kebutuhan pokok lainnya. Tanyakan langsung ke admin WhatsApp!</p>
                 </div>
             </div>
             <a href="https://wa.me/<?php echo esc_attr($wa_clean); ?>?text=Halo%20Admin%20Toko%20Bahri%2C%20apakah%20ada%20stok%20produk%20khusus%20lainnya%3F" target="_blank" rel="noopener noreferrer" class="help-btn-wa">

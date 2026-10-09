@@ -30,7 +30,7 @@ add_filter('block_categories_all', 'ukm_toko_register_block_categories', 10, 2);
  * 2. Register the 3 Custom Gutenberg Blocks (Requirement 27 & 28)
  */
 function ukm_toko_register_all_blocks() {
-    // Block 1 — Hero Banner
+    // Block 1 â€” Hero Banner
     register_block_type('ukm-toko/hero-banner', array(
         'api_version'     => 2,
         'title'           => __('Hero Banner UKM', 'ukm-toko-theme'),
@@ -47,7 +47,7 @@ function ukm_toko_register_all_blocks() {
         'render_callback' => 'ukm_toko_render_hero_banner_block',
     ));
 
-    // Block 2 — Product Grid
+    // Block 2 â€” Product Grid
     register_block_type('ukm-toko/product-grid', array(
         'api_version'     => 2,
         'title'           => __('Product Grid UKM', 'ukm-toko-theme'),
@@ -63,7 +63,7 @@ function ukm_toko_register_all_blocks() {
         'render_callback' => 'ukm_toko_render_product_grid_block',
     ));
 
-    // Block 3 — Testimonial Slider
+    // Block 3 â€” Testimonial Slider
     register_block_type('ukm-toko/testimonial-slider', array(
         'api_version'     => 2,
         'title'           => __('Testimonial Slider UKM', 'ukm-toko-theme'),
@@ -159,7 +159,7 @@ function ukm_toko_render_testimonial_block($attributes) {
     $name   = !empty($attributes['customerName']) ? esc_html($attributes['customerName']) : 'Pelanggan Setia';
     $quote  = !empty($attributes['testimonial']) ? esc_html($attributes['testimonial']) : 'Pelayanan cepat dan sembako berkualitas tinggi!';
     $rating = !empty($attributes['rating']) ? intval($attributes['rating']) : 5;
-    $stars  = str_repeat('⭐', max(1, min(5, $rating)));
+    $stars  = str_repeat('â­', max(1, min(5, $rating)));
 
     ob_start();
     ?>
@@ -172,10 +172,25 @@ function ukm_toko_render_testimonial_block($attributes) {
             </div>
             <div>
                 <strong style="display:block; font-size:0.95rem; color:#0f172a;"><?php echo $name; ?></strong>
-                <span style="font-size:0.8rem; color:#64748b;">Mitra Terverifikasi Toko Bahri</span>
+                <span style="font-size:0.8rem; color:#64748b;">Mitra Terverifikasi Toko Berkah</span>
             </div>
         </div>
     </div>
     <?php
     return ob_get_clean();
 }
+
+/**
+ * 4. Enqueue Block Editor Script
+ */
+function ukm_toko_block_editor_assets() {
+    wp_enqueue_script(
+        'ukm-toko-blocks-editor',
+        get_stylesheet_directory_uri() . '/assets/js/blocks.js',
+        array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components'),
+        defined('UKM_THEME_VERSION') ? UKM_THEME_VERSION : '1.1.0',
+        true
+    );
+}
+add_action('enqueue_block_editor_assets', 'ukm_toko_block_editor_assets');
+

@@ -303,7 +303,7 @@ function ukm_toko_register_acf_definitions() {
                 'label' => __('Email Toko', 'ukm-toko-theme'),
                 'name' => 'email',
                 'type' => 'email',
-                'default_value' => 'admin@tokobahri.urmin.my.id',
+                'default_value' => 'admin@toko-berkah.urmin.my.id',
             ),
             array(
                 'key' => 'field_store_phone',
@@ -331,28 +331,28 @@ function ukm_toko_register_acf_definitions() {
                 'label' => __('Facebook URL', 'ukm-toko-theme'),
                 'name' => 'facebook',
                 'type' => 'url',
-                'default_value' => 'https://facebook.com/tokobahri',
+                'default_value' => 'https://facebook.com/toko-berkah',
             ),
             array(
                 'key' => 'field_store_instagram',
                 'label' => __('Instagram URL', 'ukm-toko-theme'),
                 'name' => 'instagram',
                 'type' => 'url',
-                'default_value' => 'https://instagram.com/tokobahri',
+                'default_value' => 'https://instagram.com/toko-berkah',
             ),
             array(
                 'key' => 'field_store_tiktok',
                 'label' => __('TikTok URL', 'ukm-toko-theme'),
                 'name' => 'tiktok',
                 'type' => 'url',
-                'default_value' => 'https://tiktok.com/@tokobahri',
+                'default_value' => 'https://tiktok.com/@toko-berkah',
             ),
             array(
                 'key' => 'field_store_footer_text',
                 'label' => __('Footer Text', 'ukm-toko-theme'),
                 'name' => 'footer_text',
                 'type' => 'text',
-                'default_value' => '© ' . date('Y') . ' Toko UKM Sembako Bahri. Seluruh hak cipta dilindungi.',
+                'default_value' => 'Â© ' . date('Y') . ' Toko UKM Sembako Bahri. Seluruh hak cipta dilindungi.',
             ),
         ),
         'location' => array(
@@ -427,7 +427,7 @@ function ukm_toko_register_acf_definitions() {
                         'label' => __('About Store Section', 'ukm-toko-theme'),
                         'display' => 'block',
                         'sub_fields' => array(
-                            array('key' => 'f_abt_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text', 'default_value' => 'Tentang Toko Bahri'),
+                            array('key' => 'f_abt_title', 'label' => 'Title', 'name' => 'title', 'type' => 'text', 'default_value' => 'Tentang Toko Berkah'),
                             array('key' => 'f_abt_content', 'label' => 'Content', 'name' => 'content', 'type' => 'wysiwyg'),
                         ),
                     ),
@@ -480,6 +480,7 @@ add_action('acf/init', 'ukm_toko_register_acf_definitions');
 /**
  * 4. Helper Function: ukm_get_field (Works with ACF or Post Meta)
  */
+if ( ! function_exists( 'ukm_get_field' ) ) :
 function ukm_get_field($field_name, $post_id = false, $default = '') {
     if (!$post_id) {
         $post_id = get_the_ID();
@@ -494,8 +495,30 @@ function ukm_get_field($field_name, $post_id = false, $default = '') {
     if (!empty($meta)) {
         return $meta;
     }
+
+    // Common field aliases fallback
+    $aliases = array(
+        'galeri_produk' => array('gallery', 'galeri'),
+        'gallery'       => array('galeri_produk', 'galeri'),
+        'varian_produk' => array('variants', 'variasi'),
+        'variants'      => array('varian_produk', 'variasi'),
+        'spesifikasi'   => array('specs', 'specifications'),
+    );
+
+    if (isset($aliases[$field_name])) {
+        foreach ($aliases[$field_name] as $alias) {
+            if (function_exists('get_field')) {
+                $val = get_field($alias, $post_id);
+                if (!empty($val)) return $val;
+            }
+            $meta = get_post_meta($post_id, $alias, true);
+            if (!empty($meta)) return $meta;
+        }
+    }
+
     return $default;
 }
+endif;
 
 /**
  * 5. Helper Function: ukm_get_option (Works with ACF Options or Theme Mods)
@@ -509,3 +532,4 @@ function ukm_get_option($option_name, $default = '') {
     }
     return get_theme_mod('ukm_' . $option_name, $default);
 }
+

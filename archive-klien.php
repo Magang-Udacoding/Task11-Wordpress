@@ -1,6 +1,6 @@
 <?php
 /**
- * Archive Template for CPT Klien - Classic Facebook Friends Directory Style
+ * Archive Template for CPT Klien - Modern Mitra Warung & Klien Directory
  *
  * @package UKM_Toko_Theme
  */
@@ -11,127 +11,121 @@ $wa_number = get_theme_mod('ukm_wa_number', '6281234567890');
 $wa_clean  = preg_replace('/[^0-9]/', '', $wa_number);
 ?>
 
-<div class="fb-3col-layout">
-    <!-- Left Sidebar -->
-    <aside class="fb-col-left">
-        <div class="fb-left-card fb-profile-card">
-            <div class="fb-profile-avatar-box">
-                <span class="fb-profile-emoji">👥</span>
-            </div>
-            <div class="fb-profile-info">
-                <h2 class="fb-profile-name">Jaringan Mitra Toko</h2>
-                <span class="fb-profile-role">Komunitas Warung Binaan</span>
-            </div>
-        </div>
-
-        <div class="fb-left-card fb-nav-card">
-            <span class="fb-card-heading">PROGRAM KEMITRAAN</span>
-            <ul class="fb-left-menu">
-                <li class="active">
-                    <a href="#daftar-mitra">
-                        <span class="fb-menu-icon">🏪</span>
-                        <span class="fb-menu-label">Daftar Warung Binaan</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#keuntungan-mitra">
-                        <span class="fb-menu-icon">🎁</span>
-                        <span class="fb-menu-label">Keuntungan Mitra</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://wa.me/<?php echo esc_attr($wa_clean); ?>?text=Halo%20Admin%2C%20saya%20ingin%20bergabung%20jadi%20Mitra%20Warung" target="_blank">
-                        <span class="fb-menu-icon">🤝</span>
-                        <span class="fb-menu-label">Daftar Jadi Mitra</span>
-                        <span class="fb-menu-badge">Gratis</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
-
-    <!-- Center Column: Friends List -->
-    <section class="fb-col-center">
-        <div class="fb-feed-filter-bar">
-            <span class="fb-filter-title">Mitra Warung Kelontong, Restoran & Klien Grosir Resmi</span>
-            <div class="fb-filter-links">
-                <a href="https://wa.me/<?php echo esc_attr($wa_clean); ?>?text=Halo%20Admin%2C%20saya%20mau%20gabung%20mitra" target="_blank" class="fb-confirm-btn" style="text-decoration:none;">
-                    + Gabung Jadi Mitra
+<main id="primary-content" class="mitra-page-main">
+    <div class="site-container">
+        
+        <!-- Header Banner -->
+        <div class="mitra-header-banner">
+            <div class="banner-badge">ðŸ¤ PROGRAM KEMITRAAN RESMI</div>
+            <h1 class="banner-title">Jaringan Mitra Warung & Klien Grosir</h1>
+            <p class="banner-subtitle">
+                Toko Berkah membina puluhan warung kelontong, usaha kuliner, dan katering di seluruh wilayah Bandung dengan pasokan sembako terjamin, timbangan presisi, dan harga grosir termurah.
+            </p>
+            <div class="banner-cta-row">
+                <a href="https://wa.me/<?php echo esc_attr($wa_clean); ?>?text=Halo%20Admin%20Toko%20Bahri%2C%20saya%20tertarik%20mendaftar%20jadi%20Mitra%20Warung%20Binaan" target="_blank" rel="noopener noreferrer" class="btn-join-mitra">
+                    <span>+ Daftar Jadi Mitra Warung</span>
                 </a>
+                <span class="join-free-tag">âœ“ Pendaftaran 100% Gratis & Langsung Aktif</span>
             </div>
         </div>
 
-        <div class="fb-posts-stream" id="daftar-mitra">
+        <!-- Benefits Row -->
+        <div class="mitra-benefits-grid">
+            <div class="benefit-item-card">
+                <span class="b-icon">ðŸ’°</span>
+                <h4>Harga Grosir Khusus</h4>
+                <p>Harga pasokan lebih murah dari pasar retail tanpa minimal order partai besar.</p>
+            </div>
+            <div class="benefit-item-card">
+                <span class="b-icon">ðŸšš</span>
+                <h4>Gratis Ongkir Same-Day</h4>
+                <p>Armada pengiriman langsung ke depan kios toko Anda setiap pagi dan sore.</p>
+            </div>
+            <div class="benefit-item-card">
+                <span class="b-icon">ðŸŒ¾</span>
+                <h4>Stok Stabil & Asli</h4>
+                <p>Jaminan pasokan beras dan minyak stabil saat terjadi kelangkaan pasar nasional.</p>
+            </div>
+            <div class="benefit-item-card">
+                <span class="b-icon">ðŸ’³</span>
+                <h4>Tempo Pembayaran</h4>
+                <p>Fasilitas pembayaran tempo mingguan untuk mitra warung berstatus terverifikasi.</p>
+            </div>
+        </div>
+
+        <!-- Directory Title & Counter -->
+        <div class="section-header-row" style="margin-top: 40px;">
+            <div>
+                <span class="section-subtitle">DAFTAR KLIEN & WARUNG BINAAN</span>
+                <h2 class="section-title">Mitra Resmi Toko Sembako Bahri</h2>
+            </div>
+            <span class="mitra-counter-badge">Terdaftar Aktif di Bandung</span>
+        </div>
+
+        <!-- Mitra Cards Stream Grid -->
+        <div class="mitra-directory-grid">
             <?php if (have_posts()) : ?>
                 <?php while (have_posts()) : the_post();
-                    $telepon = ukm_get_field('telepon');
-                    $lokasi  = ukm_get_field('lokasi');
+                    $telepon   = ukm_get_field('telepon');
+                    $lokasi    = ukm_get_field('lokasi');
                     $testimoni = ukm_get_field('testimoni_klien') ?: get_the_excerpt();
                     $client_wa = preg_replace('/[^0-9]/', '', $telepon ?: $wa_clean);
                 ?>
-                    <article class="fb-post-card">
-                        <div class="fb-post-header">
-                            <div class="fb-post-avatar">
-                                <span class="fb-avatar-box">🏪</span>
+                    <article class="mitra-profile-card">
+                        <div class="profile-card-top">
+                            <div class="profile-avatar-circle">
+                                <span>ðŸª</span>
                             </div>
-                            <div class="fb-post-header-meta">
-                                <div class="fb-author-line">
-                                    <strong class="fb-author-name"><?php the_title(); ?></strong>
-                                    <span class="fb-tag-pill" style="margin-left:6px;">✓ Mitra Terverifikasi</span>
+                            <div class="profile-titles">
+                                <h3 class="profile-name"><?php the_title(); ?></h3>
+                                <div class="profile-verified-chip">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                    <span>Mitra Terverifikasi</span>
                                 </div>
-                                <div class="fb-post-time">Jaringan Mitra Resmi Toko Bahri · 🌍 Publik</div>
                             </div>
                         </div>
 
-                        <div class="fb-post-body" style="font-size:12px;">
-                            <?php if ($testimoni) : ?>
-                                <div class="fb-comment-bubble" style="margin-bottom:10px; font-style:italic; background:#f9f9f9;">
-                                    "<?php echo esc_html($testimoni); ?>"
+                        <?php if ($testimoni) : ?>
+                            <blockquote class="profile-quote">
+                                "<?php echo esc_html($testimoni); ?>"
+                            </blockquote>
+                        <?php endif; ?>
+
+                        <div class="profile-info-list">
+                            <?php if ($lokasi) : ?>
+                                <div class="info-row">
+                                    <span class="row-icon">ðŸ“</span>
+                                    <span><?php echo esc_html($lokasi); ?></span>
                                 </div>
                             <?php endif; ?>
-
-                            <div style="color:#555; line-height:1.5;">
-                                <?php if ($lokasi) : ?>
-                                    <p>📍 <strong>Alamat Usaha:</strong> <?php echo esc_html($lokasi); ?></p>
-                                <?php endif; ?>
-                                <?php if ($telepon) : ?>
-                                    <p>📞 <strong>No. Kontak:</strong> <?php echo esc_html($telepon); ?></p>
-                                <?php endif; ?>
-                            </div>
+                            <?php if ($telepon) : ?>
+                                <div class="info-row">
+                                    <span class="row-icon">ðŸ“ž</span>
+                                    <span><?php echo esc_html($telepon); ?></span>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
-                        <div class="fb-post-actions-bar">
-                            <button type="button" class="fb-action-btn fb-like-btn" data-liked="false" data-count="32">
-                                <span class="fb-action-icon">👍</span>
-                                <span class="fb-action-label">Suka Profil Mitra</span>
-                            </button>
-                            <a href="https://wa.me/<?php echo esc_attr($client_wa); ?>" target="_blank" class="fb-action-btn fb-action-wa">
-                                💬 Hubungi Mitra
+                        <div class="profile-card-actions">
+                            <a href="https://wa.me/<?php echo esc_attr($client_wa); ?>?text=Halo%20Mitra%20Toko%20Bahri" target="_blank" rel="noopener noreferrer" class="btn-profile-wa">
+                                ðŸ’¬ Hubungi Mitra
                             </a>
+                            <span class="profile-status-dot-wrap">
+                                <span class="dot-online"></span> Aktif
+                            </span>
                         </div>
                     </article>
                 <?php endwhile; ?>
             <?php else : ?>
-                <div class="fb-empty-feed">Belum ada mitra terdaftar.</div>
+                <div class="empty-state-card">
+                    <p>Belum ada mitra yang ditampilkan.</p>
+                </div>
             <?php endif; ?>
         </div>
-    </section>
 
-    <!-- Right Sidebar -->
-    <aside class="fb-col-right">
-        <div class="fb-right-card" id="keuntungan-mitra">
-            <div class="fb-right-card-header">
-                <span class="fb-header-title">KEUNTUNGAN MITRA</span>
-            </div>
-            <ul style="font-size:11px; padding-left:16px; margin:4px 0; color:#555; line-height:1.6;">
-                <li>Potongan harga grosir khusus.</li>
-                <li>Gratis ongkir pengiriman same-day.</li>
-                <li>Jaminan pasokan beras & minyak stabil.</li>
-                <li>Sistem tempo pembayaran mingguan.</li>
-            </ul>
-        </div>
-    </aside>
-</div>
+    </div>
+</main>
 
 <?php
 get_footer();
+

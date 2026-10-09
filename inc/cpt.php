@@ -219,3 +219,4 @@ function ukm_toko_klien_custom_column($column, $post_id) {
     }
 }
 add_action('manage_klien_posts_custom_column', 'ukm_toko_klien_custom_column', 10, 2);
+
